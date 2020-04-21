@@ -1,5 +1,6 @@
 ﻿using System;
 
+//Ryan Shereda, JD Heckenliable, Michael Hall
 namespace rpsProject
 {
     //create enumerated list for each possible choice
