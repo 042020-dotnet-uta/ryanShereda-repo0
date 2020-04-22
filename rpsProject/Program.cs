@@ -48,10 +48,10 @@ namespace rpsProject
             //if player 1 score more than 2
             if (player1.playerScore >= 2) {
                 //write to console "[player1] wins [player1.score]-[player2.score] with [tie count] ties"
-                System.Console.WriteLine($"{player1.playerName} wins {player1.playerScore}-{player2.playerScore} with {tieCount} ties.");
+                System.Console.WriteLine($"{player1.playerName} wins {player1.playerScore}-{player2.playerScore} with {tieCount} tie(s).");
             } else if (player2.playerScore >= 2) {   //} else if player 2 score more than 2 {
                 //write to console "[player2] wins [player2.score]-[player1.score] with [tie count] ties"
-                System.Console.WriteLine($"{player2.playerName} wins {player2.playerScore}-{player1.playerScore} with {tieCount} ties.");
+                System.Console.WriteLine($"{player2.playerName} wins {player2.playerScore}-{player1.playerScore} with {tieCount} tie(s).");
             } else {
                 System.Console.WriteLine($" Player 1 score: {player1.playerScore}");
                 System.Console.WriteLine($" Player 2 score: {player2.playerScore}");
@@ -83,44 +83,30 @@ namespace rpsProject
                 if (player2Choice == Choice.paper) {
                     //player 2 wins
                     winner = player2;
-                    //player2.score + 1;
-                    player2.IncreaseScore();
                 } else if (player2Choice == Choice.scissors) {
                     //player 1 wins
                     winner = player1;
-                    //player1.score + 1;
-                    player1.IncreaseScore();
                 }
             } else if (player1Choice == Choice.paper) {
                 //nested if statement checking player 2's choice
                 if (player2Choice == Choice.scissors) {
                     //player 2 wins
                     winner = player2;
-                    //player2.score + 1;
-                    player2.IncreaseScore();
                 } else if (player2Choice == Choice.rock) {
                     //player 1 wins
                     winner = player1;
-                    //player1.score + 1;
-                    player1.IncreaseScore();
                 }
             } else if (player1Choice == Choice.scissors) {
                 //nested if statement checking player 2's choice
                 if (player2Choice == Choice.rock) {
                     //player 2 wins
                     winner = player2;
-                    //player2.score + 1;
-                    player2.IncreaseScore();
                 } else if (player2Choice == Choice.paper) {
                     //player 1 wins
                     winner = player1;
-                    //player1.score + 1;
-                    player1.IncreaseScore();
                 }
             }
 
-            // System.Console.WriteLine($"{player1.playerName}: {player1Choice}");
-            // System.Console.WriteLine($"{player2.playerName}: {player2Choice}");
             //check winner ([IF] there is a tie)
             if(player1Choice == player2Choice) {
                 //write there was a tie
@@ -129,8 +115,9 @@ namespace rpsProject
                 //increment tie counter
                 tieCount++;
             } else {        //[ELSE] a player won
-                //add score out here instead?
-                //winner.playerScore++;
+                //Winner's score + 1
+                winner.IncreaseScore();
+
                 //write results to console
                 //round # - [player1] had [value], [player2] had [value] - [winner] won
                 System.Console.WriteLine($"Round {roundNumber}: {player1.playerName} had {player1Choice}, {player2.playerName} had {player2Choice} -- {winner.playerName} wins.");            
