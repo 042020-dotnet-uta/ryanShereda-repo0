@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 //provides template for creating new games
+//basic formatting according to today's topics, referencing JD Heckenliable's formatting for accuracy.
+//All non-initialization code, unless marked otherwise, is my own.
 namespace rpsProject
 {
     class Game
@@ -54,15 +56,15 @@ namespace rpsProject
 		{
 			InitializePlayers();
 
-			//create player score trackers
-			var player1Score = 0;
-			var player2Score = 0;
+			//create player score trackers, local variables make tracking scores easier
+			int player1Score = 0;
+			int player2Score = 0;
 
 			//Loop game rounds until a player has two or more points
 			do
 			{
 				//create game round
-				var round = PlayRound();
+				Round round = PlayRound();
 
 				//assign score
 				if (round.Winner == player1) //Player 1 won the round
@@ -83,8 +85,9 @@ namespace rpsProject
 
 				//display end of round info
 				DisplayRoundResults(round);
-			} while ((player1Score < 2) && (player2Score < 2));
+			} while ((player1Score < 2) && (player2Score < 2)); //end loop when one player has 2+ points
 
+			//Display final results of the game, including winner, final score, and number of ties.
 			DisplayGameResults(player1Score, player2Score);
 		}
         #endregion
@@ -94,9 +97,9 @@ namespace rpsProject
         Round PlayRound()
 		{
 			//create object to hold round information
-			var round = new Round();
+			Round round = new Round();
 			//randomly seed the game round
-			var random = new Random();
+			Random random = new Random();
 
 			//set both player's choices
 			round.Player1Choice = (Choice)random.Next(0, 3);
@@ -150,7 +153,8 @@ namespace rpsProject
         void DisplayGameResults(int player1Score, int player2Score)
 		{
 			//calculates number of tie rounds, equation created by JD Heckenliable (as far as I know)
-			var tieCount = rounds.Count - (player1Score + player2Score);
+			//subtract player scores from number of rounds to find number of ties
+			int tieCount = rounds.Count - (player1Score + player2Score);
 
 			//determine winner
 			if (player1Score >= 2) //player 1 wins
