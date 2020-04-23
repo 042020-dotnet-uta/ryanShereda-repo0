@@ -4,7 +4,7 @@ using System.Text;
 
 //Provides template for storing player attributes, such as name and scores
 //basic formatting according to today's topics, referencing JD Heckenliable's formatting for accuracy.
-//All non-initialization code, unless marked otherwise, is my own.
+//All non-stock code, unless marked otherwise, is my own.
 namespace rpsProject
 {
     internal class Player

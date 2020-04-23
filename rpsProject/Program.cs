@@ -7,7 +7,7 @@ namespace rpsProject
     {
         static void Main(string[] args)
         {
-            new Game().StartGame();
+            new Gameplay().StartGame();
         }
 
     }
