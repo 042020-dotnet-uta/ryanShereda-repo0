@@ -7,6 +7,7 @@ using System.Text;
 //This class is the constructor for objects detailing where a number should be switched out for a string, and which string to use.
 namespace Week2CodingChallenge
 {
+	//structured similarly to the rpsProject--used as reference for formatting
     class CounterCase
     {
         #region variables
