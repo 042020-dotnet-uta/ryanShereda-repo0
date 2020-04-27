@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 //This class holds the two core gameplay loops used in the RPS game.
 //basic formatting according to today's topics, referencing JD Heckenliable's formatting for accuracy.
@@ -10,9 +12,18 @@ namespace rpsProject
     class Gameplay : Game
     {
 
+		//create logger for console app
+		//creation code taken from Mark Moore class rps project
+		private readonly ILogger _logger;
+		public Gameplay(ILogger<Gameplay> logger)
+		{
+			_logger = logger;
+		}
+
 		#region Start Game Method
 		internal void StartGame()
 		{
+			_logger.LogInformation("Game begun");
 			InitializePlayers();
 
 			//create player score trackers, local variables make tracking scores easier
@@ -28,12 +39,14 @@ namespace rpsProject
 				//assign score
 				if (round.Winner == player1) //Player 1 won the round
 				{
+					//_logger.LogInformation("Player 1 won the round");
 					player1Score++;
 					player1.AddPlayerWin();
 					player2.AddPlayerLoss();
 				}
 				else if (round.Winner == player2) //Player 2 won the round
 				{
+					//_logger.LogInformation("Player 2 won the round");
 					player2Score++;
 					player2.AddPlayerWin();
 					player1.AddPlayerLoss();
@@ -62,7 +75,9 @@ namespace rpsProject
 
 			//set both player's choices
 			round.Player1Choice = (Choice)random.Next(0, 3);
+			//_logger.LogInformation("Player 1 selected something");
 			round.Player2Choice = (Choice)random.Next(0, 3);
+			//_logger.LogInformation("Player 2 selected something");
 
 			#region Main Gameplay Logic Tree
 			switch (round.Player1Choice) //switch case statement to check player 1's choice
