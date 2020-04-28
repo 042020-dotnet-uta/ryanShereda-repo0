@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +13,8 @@ namespace rpsProject
 {
     class Gameplay : Game
     {
+		//create a DB context to manipulate the DB
+		RPS_DbContext db = new RPS_DbContext();
 
 		//create logger for console app
 		//creation code taken from Mark Moore class rps project
@@ -26,9 +30,16 @@ namespace rpsProject
 			_logger.LogInformation("Game begun");
 			InitializePlayers();
 
+			db.Add(player1);
+			db.Add(player2);
+			db.SaveChanges();
+
 			//create player score trackers, local variables make tracking scores easier
 			int player1Score = 0;
 			int player2Score = 0;
+
+			var playerRyan = db.Players.Where(p => p.PlayerName == "Ryan").FirstOrDefault();
+			Console.WriteLine($"\n\n\tThe players name is {playerRyan.PlayerName} abd its ID is {playerRyan.playerID}\n\n");
 
 			//Loop game rounds until a player has two or more points
 			do

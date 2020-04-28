@@ -9,6 +9,8 @@ namespace rpsProject
 {
     internal class Player
     {
+        public Player() { }
+
         #region Player Creator
         //Allow creation of player, code created by JD Heckenliable
         public Player(String name) //when object is created, assign it parameter as name
@@ -16,6 +18,9 @@ namespace rpsProject
             playerName = name; //sets player name to parameter name
         }
         #endregion
+
+        public int playerID { get; set; }
+
 
         #region Player Name
         //provides holder for player name

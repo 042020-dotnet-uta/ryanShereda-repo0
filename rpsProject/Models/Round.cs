@@ -19,6 +19,8 @@ namespace rpsProject
 		}
         #endregion
 
+        public int roundID { get; set; }
+
         #region Player1Choice
         //creates holder for player 1's choice
         private Choice player1Choice;

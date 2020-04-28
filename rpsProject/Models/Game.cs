@@ -9,6 +9,8 @@ namespace rpsProject
 {
     internal class Game
     {
+		public int GameID { get; set; }
+
 		#region List of Rounds
 		//creates list of rounds played this game
 		private protected List<Round> rounds = new List<Round>();
