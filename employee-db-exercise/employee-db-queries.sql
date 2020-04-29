@@ -21,20 +21,22 @@
 
 --3. List all employees in Marketing
 SELECT *
-FROM dbo.Employee
-WHERE DeptID = 4;
+FROM dbo.Employee JOIN dbo.Department ON Employee.DeptID = Department.ID
+WHERE Department.Name = 'Marketing';
 
 --4. Report Salary Total of Marketing
---SELECT SUM([Salary]) AS 'Marketing Total Salary'
---FROM dbo.EmpDetails
---WHERE EmployeeID = (SELECT ID FROM dbo.Employee WHERE DeptID = 4);
+SELECT SUM([Salary]) AS MarketingTotalSalary
+FROM dbo.EmpDetails JOIN Employee ON Employee.ID = EmpDetails.EmployeeID
+JOIN Department ON Employee.DeptID = Department.ID
+WHERE Department.Name = 'Marketing';
 
 --5. Report total employees by department
-SELECT Department.Name AS 'Department', COUNT(Employee.ID) AS 'Number of Employees'
+SELECT Name, Count(Employee.ID) As EmployeeCount 
 FROM dbo.Employee JOIN dbo.Department ON dbo.Employee.DeptID = dbo.Department.ID
-GROUP BY DeptID;
+GROUP BY Name;
 
 --6. Increase salary of Tina Smith to $90,000
---UPDATE EmpDetails
---SET Salary = 90000
---WHERE EmployeeID = 4;
+UPDATE EmpDetails
+SET Salary = 90000
+FROM Employee JOIN EmpDetails ON Employee.ID = EmpDetails.EmployeeID
+WHERE Employee.FirstName = 'Tina' AND Employee.LastName = 'Smith';
