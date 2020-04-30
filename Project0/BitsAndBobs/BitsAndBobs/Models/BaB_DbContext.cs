@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace BitsAndBobs.Models
 {
-    class BaB_DbContext : DbContext
+    public class BaB_DbContext : DbContext
     {
-
-
+        #region Constructors
         public BaB_DbContext()
         {
 
@@ -18,6 +18,13 @@ namespace BitsAndBobs.Models
         {
 
         }
+        #endregion
+
+        #region Database Set Declarations
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<OrderLineItem> OrderLineItems { get; set; }
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
