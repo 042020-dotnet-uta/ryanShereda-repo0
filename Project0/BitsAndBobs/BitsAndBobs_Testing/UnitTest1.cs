@@ -41,9 +41,12 @@ namespace BitsAndBobs_Testing
             }
         }
 
-        
+        /// <summary>
+        /// Test 2 -- 
+        /// This test creates an OrderLineItem entry and pushes it to the database.
+        /// </summary>
         [Fact]
-        public void Test2()
+        public void TestOrderLineItemCreation()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
