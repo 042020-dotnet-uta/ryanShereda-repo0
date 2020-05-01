@@ -35,9 +35,14 @@ namespace BitsAndBobs_Testing
                 context.SaveChanges();
             }
 
-            //Call sign-in method with given credentials
+            //Create object to hold the LogIn reference
             LogIn testLogInObject = new LogIn();
-            testLogInObject.LogInStart(new UnitTest1Inputs());
+
+            //Call sign-in method with given credentials, using in-memory database
+            using (var context = new BaB_DbContext(options))
+            {
+                testLogInObject.LogInStart(new UnitTest1Inputs());
+            }
 
             //Assert
             using (var context = new BaB_DbContext(options))
