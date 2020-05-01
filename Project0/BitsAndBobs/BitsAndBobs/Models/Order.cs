@@ -40,6 +40,6 @@ namespace BitsAndBobs.Models
 			set { orderTotal = value; }
 		}
 
-		public Order() {	}
+		//public Order() {	}
 	}
 }

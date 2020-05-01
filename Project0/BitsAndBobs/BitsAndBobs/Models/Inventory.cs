@@ -32,6 +32,6 @@ namespace BitsAndBobs.Models
 			set { productQuantity = value; }
 		}
 
-		public Inventory() { }
+		//public Inventory() { }
 	}
 }

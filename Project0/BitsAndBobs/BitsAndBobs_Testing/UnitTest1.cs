@@ -9,19 +9,20 @@ namespace BitsAndBobs_Testing
     {
         /// <summary>
         /// Test 1 -- 
-        /// This test tries searching for an existing Customer object, ensuring it was perpetuated it to the database.
+        /// This test tries searching for an existing Customer object, using its values to log in.
         /// </summary>
         [Fact]
         public void TestCustomerSearch()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
+                .UseInMemoryDatabase(databaseName: "SearchesForCustomerInDB")
                 .Options;
 
             //Act
             using (var context = new BaB_DbContext(options))
             {
+                //Add user to the database for testing
                 Customer testCustomer = new Customer
                 {
                     CustFirstName = "Annie",
@@ -30,42 +31,23 @@ namespace BitsAndBobs_Testing
                 context.Add(testCustomer);
                 context.SaveChanges();
             }
+            
+            //Call sign-in method with given credentials
 
             //Assert
             using (var context = new BaB_DbContext(options))
             {
-                Assert.Equal(1, context.Customers.Count());
+                Assert.Equal(1, context.CustomersDB.Count());
 
-                var testCustomerName = context.Customers.Where(c => c.CustomerID == 1).FirstOrDefault();
+                var testCustomerName = context.CustomersDB.Where(c => c.CustomerID == 1).FirstOrDefault();
                 Assert.Equal("Annie", testCustomerName.CustFirstName);
             }
         }
 
         /// <summary>
         /// Test 2 -- 
-        /// This test creates an OrderLineItem entry and pushes it to the database.
+        /// This test attempts to use the "Create a new customer" feature to add a customer to the database, then log in.
         /// </summary>
-        [Fact]
-        public void TestOrderLineItemCreation()
-        {
-            //Arrange
-            var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
-                .Options;
-
-            //Act
-            using (var context = new BaB_DbContext(options))
-            {
-                
-            }
-
-            //Assert
-            using (var context = new BaB_DbContext(options))
-            {
-               
-            }
-        }
-
         [Fact]
         public void Test3()
         {
@@ -84,6 +66,40 @@ namespace BitsAndBobs_Testing
             using (var context = new BaB_DbContext(options))
             {
 
+            }
+        }
+
+        /// <summary>
+        /// Test 3 -- 
+        /// This test creates an OrderLineItem entry and pushes it to the database.
+        /// </summary>
+        [Fact]
+        public void TestOrderLineItemCreation()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BaB_DbContext>()
+                .UseInMemoryDatabase(databaseName: "CreateLineOrderInDB")
+                .Options;
+
+            //Act
+            using (var context = new BaB_DbContext(options))
+            {
+                Product testProduct = new Product
+                {
+                    ProductName = "Burnt Clamshell",
+                    ProductPrice = 1
+                };
+                context.Add(testProduct);
+                context.SaveChanges();
+
+                
+            }
+
+            //Assert
+            using (var context = new BaB_DbContext(options))
+            {
+                Assert.Equal(1, context.Products.Count());
+                
             }
         }
 

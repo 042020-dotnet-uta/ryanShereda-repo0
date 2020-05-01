@@ -24,6 +24,6 @@ namespace BitsAndBobs.Models
 			set { custLastName = value; }
 		}
 
-		public Customer() { }
+		//public Customer() { }
 	}
 }

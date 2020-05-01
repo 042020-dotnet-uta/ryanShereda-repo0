@@ -21,9 +21,12 @@ namespace BitsAndBobs.Models
         #endregion
 
         #region Database Set Declarations
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<OrderLineItem> OrderLineItems { get; set; }
+        public DbSet<Product> ProductsDB { get; set; }
+        public DbSet<Customer> CustomersDB { get; set; }
+        public DbSet<OrderLineItem> OrderLineItemsDB { get; set; }
+        public DbSet<Order> OrdersDB { get; set; }
+        public DbSet<Location> LocationsDB { get; set; }
+        public DbSet<Inventory> InventoryDB { get; set; }
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
