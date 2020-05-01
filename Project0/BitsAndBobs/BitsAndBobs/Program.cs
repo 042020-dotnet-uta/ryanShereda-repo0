@@ -7,7 +7,8 @@ namespace BitsAndBobs
         
         static void Main(string[] args)
         {
-            
+            LogIn logInObject = new LogIn();
+            logInObject.LogInWelcome();
         }
     }
 }
