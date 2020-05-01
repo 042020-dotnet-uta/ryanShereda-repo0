@@ -76,31 +76,31 @@ namespace BitsAndBobs_Testing
         [Fact]
         public void TestOrderLineItemCreation()
         {
-            //Arrange
-            var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CreateLineOrderInDB")
-                .Options;
+            ////Arrange
+            //var options = new DbContextOptionsBuilder<BaB_DbContext>()
+            //    .UseInMemoryDatabase(databaseName: "CreateLineOrderInDB")
+            //    .Options;
 
-            //Act
-            using (var context = new BaB_DbContext(options))
-            {
-                Product testProduct = new Product
-                {
-                    ProductName = "Burnt Clamshell",
-                    ProductPrice = 1
-                };
-                context.Add(testProduct);
-                context.SaveChanges();
+            ////Act
+            //using (var context = new BaB_DbContext(options))
+            //{
+            //    Product testProduct = new Product
+            //    {
+            //        ProductName = "Burnt Clamshell",
+            //        ProductPrice = 1
+            //    };
+            //    context.Add(testProduct);
+            //    context.SaveChanges();
 
                 
-            }
+            //}
 
-            //Assert
-            using (var context = new BaB_DbContext(options))
-            {
-                Assert.Equal(1, context.Products.Count());
+            ////Assert
+            //using (var context = new BaB_DbContext(options))
+            //{
+            //    Assert.Equal(1, context.Products.Count());
                 
-            }
+            //}
         }
 
         [Fact]
