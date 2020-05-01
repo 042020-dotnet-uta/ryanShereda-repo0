@@ -24,8 +24,8 @@ namespace BitsAndBobs.Models
 		/// <summary>
 		/// Property for the price of the product.
 		/// </summary>
-		private int productPrice;
-		public int ProductPrice
+		private double productPrice;
+		public double ProductPrice
 		{
 			get { return productPrice; }
 			set { productPrice = value; }
@@ -34,6 +34,6 @@ namespace BitsAndBobs.Models
 		/// <summary>
 		/// Empty constructor.
 		/// </summary>
-		public Product() { }
+		//public Product() { }
 	}
 }

@@ -32,6 +32,6 @@ namespace BitsAndBobs.Models
 			set { locationCountry = value; }
 		}
 
-		public Location() { }
+		//public Location() { }
 	}
 }
