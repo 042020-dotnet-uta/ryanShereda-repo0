@@ -24,6 +24,22 @@ namespace BitsAndBobs.Models
 			set { custLastName = value; }
 		}
 
+		private String custUsername;
+
+		public String CustUsername
+		{
+			get { return custUsername; }
+			set { custUsername = value; }
+		}
+
+		private String custPassword;
+
+		public String CustPassword
+		{
+			get { return custPassword; }
+			set { custPassword = value; }
+		}
+
 		//public Customer() { }
 	}
 }

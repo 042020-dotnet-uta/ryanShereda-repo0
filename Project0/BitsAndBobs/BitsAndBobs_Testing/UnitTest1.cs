@@ -2,6 +2,7 @@ using Xunit;
 using Microsoft.EntityFrameworkCore;
 using BitsAndBobs.Models;
 using System.Linq;
+using BitsAndBobs;
 
 namespace BitsAndBobs_Testing
 {
@@ -26,21 +27,23 @@ namespace BitsAndBobs_Testing
                 Customer testCustomer = new Customer
                 {
                     CustFirstName = "Annie",
-                    CustLastName = "Oakenleaf"
+                    CustLastName = "Oakenleaf",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
                 };
                 context.Add(testCustomer);
                 context.SaveChanges();
             }
-            
+
             //Call sign-in method with given credentials
+            LogIn testLogInObject = new LogIn();
+            testLogInObject.LogInStart(new UnitTest1Inputs());
 
             //Assert
             using (var context = new BaB_DbContext(options))
             {
-                Assert.Equal(1, context.CustomersDB.Count());
-
-                var testCustomerName = context.CustomersDB.Where(c => c.CustomerID == 1).FirstOrDefault();
-                Assert.Equal("Annie", testCustomerName.CustFirstName);
+                var testCustomer = context.CustomersDB.Where(c => c.CustUsername == "testUser").FirstOrDefault();
+                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomerID);
             }
         }
 
