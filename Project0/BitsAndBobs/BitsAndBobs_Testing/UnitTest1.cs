@@ -27,7 +27,7 @@ namespace BitsAndBobs_Testing
                 Customer testCustomer = new Customer
                 {
                     CustFirstName = "Annie",
-                    CustLastName = "Oakenleaf",
+                    CustLastName = "Admin",
                     CustUsername = "testUser",
                     CustPassword = "testPass"
                 };
@@ -41,7 +41,7 @@ namespace BitsAndBobs_Testing
             //Call sign-in method with given credentials, using in-memory database
             using (var context = new BaB_DbContext(options))
             {
-                testLogInObject.LogInStart(new UnitTest1Inputs());
+                testLogInObject.LogInStart(new UnitTest1Inputs(), context);
             }
 
             //Assert
