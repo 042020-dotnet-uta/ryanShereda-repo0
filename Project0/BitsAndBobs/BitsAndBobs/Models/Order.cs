@@ -15,9 +15,9 @@ namespace BitsAndBobs.Models
 		/// <summary>
 		/// Property for the Customer ID of the order.
 		/// </summary>
-		public Customer CustomerID { get; set; }
+		public Customer OrderCustomer { get; set; }
 
-		public Location LocationID { get; set; }
+		public Location OrderLocation { get; set; }
 
 		public DateTime OrderDate { get; set; }
 

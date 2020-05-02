@@ -8,9 +8,9 @@ namespace BitsAndBobs.Models
     {
         public int InventoryID { get; set; }
 
-		public Location LocationID { get; set; }
+		public Location InventoryLocation { get; set; }
 
-		public Product ProductID { get; set; }
+		public Product InventoryProduct { get; set; }
 
 		public int QuantityAvailable { get; set; }
 

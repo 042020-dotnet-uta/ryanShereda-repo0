@@ -15,12 +15,12 @@ namespace BitsAndBobs.Models
 		/// <summary>
 		/// Property for the Order ID of the item.
 		/// </summary>
-		public Order OrderID { get; set; }
+		public Order LineItemOrder { get; set; }
 
 		/// <summary>
 		/// Property for the Product ID of the line item.
 		/// </summary>
-		public Product ProductID { get; set; }
+		public Product LineItemProduct { get; set; }
 
 		/// <summary>
 		/// Property for the quantity of the line item.

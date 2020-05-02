@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitsAndBobs.Migrations
 {
     [DbContext(typeof(BaB_DbContext))]
-    [Migration("20200501190759_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20200502175324_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,16 +47,20 @@ namespace BitsAndBobs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LocationID")
+                    b.Property<int?>("InventoryLocationLocationID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProductID")
+                    b.Property<int?>("InventoryProductProductID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProductQuantity")
+                    b.Property<int>("QuantityAvailable")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("InventoryID");
+
+                    b.HasIndex("InventoryLocationLocationID");
+
+                    b.HasIndex("InventoryProductProductID");
 
                     b.ToTable("InventoryDB");
                 });
@@ -87,19 +91,23 @@ namespace BitsAndBobs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LocationID")
+                    b.Property<int?>("OrderCustomerCustomerID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("OrderTotal")
+                    b.Property<int?>("OrderLocationLocationID")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("OrderTotal")
+                        .HasColumnType("REAL");
+
                     b.HasKey("OrderID");
+
+                    b.HasIndex("OrderCustomerCustomerID");
+
+                    b.HasIndex("OrderLocationLocationID");
 
                     b.ToTable("OrdersDB");
                 });
@@ -110,19 +118,23 @@ namespace BitsAndBobs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("LineItemOrderOrderID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LineItemProductProductID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("LinePrice")
                         .HasColumnType("REAL");
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("OrderLineItemID");
+
+                    b.HasIndex("LineItemOrderOrderID");
+
+                    b.HasIndex("LineItemProductProductID");
 
                     b.ToTable("OrderLineItemsDB");
                 });
@@ -142,6 +154,39 @@ namespace BitsAndBobs.Migrations
                     b.HasKey("ProductID");
 
                     b.ToTable("ProductsDB");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.Inventory", b =>
+                {
+                    b.HasOne("BitsAndBobs.Models.Location", "InventoryLocation")
+                        .WithMany()
+                        .HasForeignKey("InventoryLocationLocationID");
+
+                    b.HasOne("BitsAndBobs.Models.Product", "InventoryProduct")
+                        .WithMany()
+                        .HasForeignKey("InventoryProductProductID");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.Order", b =>
+                {
+                    b.HasOne("BitsAndBobs.Models.Customer", "OrderCustomer")
+                        .WithMany()
+                        .HasForeignKey("OrderCustomerCustomerID");
+
+                    b.HasOne("BitsAndBobs.Models.Location", "OrderLocation")
+                        .WithMany()
+                        .HasForeignKey("OrderLocationLocationID");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.OrderLineItem", b =>
+                {
+                    b.HasOne("BitsAndBobs.Models.Order", "LineItemOrder")
+                        .WithMany()
+                        .HasForeignKey("LineItemOrderOrderID");
+
+                    b.HasOne("BitsAndBobs.Models.Product", "LineItemProduct")
+                        .WithMany()
+                        .HasForeignKey("LineItemProductProductID");
                 });
 #pragma warning restore 612, 618
         }
