@@ -8,30 +8,12 @@ namespace BitsAndBobs.Models
     {
         public int LocationID { get; set; }
 
-		private String locationAddress;
+		public String LocationAddress { get; set; }
 
-		public String LocationAddress
-		{
-			get { return locationAddress; }
-			set { locationAddress = value; }
-		}
+		public String LocationState { get; set; }
 
-		private String locationState;
+		public String LocationCountry { get; set; }
 
-		public String LocationState
-		{
-			get { return locationState; }
-			set { locationState = value; }
-		}
-
-		private String locationCountry;
-
-		public String LocationCountry
-		{
-			get { return locationCountry; }
-			set { locationCountry = value; }
-		}
-
-		//public Location() { }
+		public Location() { }
 	}
 }
