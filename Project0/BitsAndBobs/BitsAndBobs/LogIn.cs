@@ -67,7 +67,7 @@ namespace BitsAndBobs
                 }
                 else if (userInput.ToLower() == "sign up" || (userInput.ToLower() == "signup"))
                 {
-                    //GO TO CREATE NEW CUSTOMER METHOD
+                    CreateNewCustomer(input, db);
                     
                 }
                 else if (userInput.ToLower() == "exit")
@@ -84,7 +84,7 @@ namespace BitsAndBobs
         void LogInExistingUser(IUserInput input, BaB_DbContext db)
         {
             bool retryLogIn = true;
-            Console.WriteLine("Welcome back.");
+            Console.WriteLine("Welcome back!");
 
             //Code format inspired by Ken Endo's login framework.
             //prompt for username
@@ -123,17 +123,65 @@ namespace BitsAndBobs
                     }
                 }
             }
-            //query database for custUsername == userInput, store password somewhere
-            //if username found, request password
-            //if password matches, set loggedInUserID = customerID
-            //else if username not found or password does not match
-            //"Invalid username/password. Please try again, or "sign up" to create a new account."
-            //loop until valid credentials or transfer out of loop
         }
 
         void CreateNewCustomer(IUserInput input, BaB_DbContext db)
         {
+            //create variables to hold user input during creation
+            String newFirstName;
+            String newLastName;
+            String newUsername;
+            String newPassword;
 
+            //Thank the user
+            Console.WriteLine("Thank you for signing up!");
+
+            //Collect and store first and last names (okay to be duplicated)
+            Console.Write("Please enter your first name: ");
+            newFirstName = input.GetInput();
+            Console.Write("Please enter your last name: ");
+            newLastName = input.GetInput();
+
+            do
+            {
+                Console.Write("Please enter your desired username: ");
+                newUsername = input.GetInput();
+
+                if ((newUsername.ToLower() == "go back") || (newUsername.ToLower() == "goback"))
+                {
+                    Console.WriteLine("We're sorry, that cannot be used for your username. Please try a different username. ");
+                }
+                else
+                {
+                    var usernameAvailabilityCheck =
+                        (from check in db.CustomersDB
+                         where (check.CustUsername == newUsername)
+                         select check);
+                    if (usernameAvailabilityCheck.Count() == 0)
+                    {
+
+                        Console.Write("Username available! ");
+                        Console.Write("Please enter your desired password: ");
+                        newPassword = input.GetInput();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("We're sorry, that username is unavailable. Please select a different name.");
+                    }
+                }
+            } while (true);
+
+            //create a new customer object using the input information
+            Customer newCustomer = new Customer(newFirstName, newLastName, newUsername, newPassword);
+            db.Add(newCustomer);
+            db.SaveChanges();
+
+            //query database for newly created Customer's customerID
+            loggedInCustomerID =
+                (from id in db.CustomersDB
+                 where (id.CustUsername == newUsername)
+                 select id.CustomerID).FirstOrDefault();
         }
     }
 

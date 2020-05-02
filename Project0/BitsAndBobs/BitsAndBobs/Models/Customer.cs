@@ -40,6 +40,14 @@ namespace BitsAndBobs.Models
 			set { custPassword = value; }
 		}
 
-		//public Customer() { }
+		public Customer() { }
+
+		public Customer(String firstName, String lastName, String userName, String password)
+		{
+			CustFirstName = firstName;
+			CustLastName = lastName;
+			CustUsername = userName;
+			CustPassword = password;
+		}
 	}
 }
