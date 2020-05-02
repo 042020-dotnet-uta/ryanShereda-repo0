@@ -176,36 +176,27 @@ namespace BitsAndBobs_Testing
 
         /// <summary>
         /// Test 5 -- 
-        /// This test creates an OrderLineItem entry and pushes it to the database.
+        /// This test looks up existing orders by location, returning information about one..
         /// </summary>
         [Fact]
-        public void TestOrderLineItemCreation()
+        public void TestOrderLookupLocation()
         {
-            ////Arrange
-            //var options = new DbContextOptionsBuilder<BaB_DbContext>()
-            //    .UseInMemoryDatabase(databaseName: "CreateLineOrderInDB")
-            //    .Options;
+            //Arrange
+            var options = new DbContextOptionsBuilder<BaB_DbContext>()
+                .UseInMemoryDatabase(databaseName: "Test5DB")
+                .Options;
 
-            ////Act
-            //using (var context = new BaB_DbContext(options))
-            //{
-            //    Product testProduct = new Product
-            //    {
-            //        ProductName = "Burnt Clamshell",
-            //        ProductPrice = 1
-            //    };
-            //    context.Add(testProduct);
-            //    context.SaveChanges();
-
+            //Act
+            using (var context = new BaB_DbContext(options))
+            {
                 
-            //}
+            }
 
-            ////Assert
-            //using (var context = new BaB_DbContext(options))
-            //{
-            //    Assert.Equal(1, context.Products.Count());
+            //Assert
+            using (var context = new BaB_DbContext(options))
+            {
                 
-            //}
+            }
         }
 
         

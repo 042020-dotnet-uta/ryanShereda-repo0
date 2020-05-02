@@ -24,5 +24,11 @@ namespace BitsAndBobs.Models
 		public double OrderTotal { get; set; }
 
 		public Order() {	}
+
+		public Order(Customer customer, Location location)
+		{
+			OrderCustomer = customer;
+			OrderLocation = location;
+		}
 	}
 }
