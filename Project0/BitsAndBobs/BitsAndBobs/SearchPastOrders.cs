@@ -56,9 +56,101 @@ namespace BitsAndBobs
 
         }
 
+        /// <summary>
+        /// Searches the database for orders based on customer name.
+        /// </summary>
+        /// <param name="input">User input device.</param>
+        /// <param name="db">Database reference.</param>
         void OrderLookupCustomer(IUserInput input, BaB_DbContext db)
         {
-            //NOT IMPLEMENTED YET
+            
+            //do
+            //{
+            //    Console.Write("Please enter the last you would like to search for, or \"Go back\" to return to the previous options: ");
+            //    userInput = input.GetInput();
+            //    if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
+            //    {
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        try
+            //        {
+            //            //Tried to join customer table in to reference customer names, but kept getting null refs
+            //            var locationOrders =
+            //                (from ord in db.OrdersDB
+            //                     /*join cust in db.CustomersDB on ord.OrderCustomer.CustomerID equals cust.CustomerID*/
+            //                 where (ord.OrderLocation.LocationID == userLocationChoice)
+            //                 select ord);
+
+            //            Console.WriteLine("Orders from this location: \n");
+
+            //            //iterate through the new query, listing each order found.
+            //            foreach (Order order in locationOrders)
+            //            {
+            //                //TODO: revisit object coupling
+            //                //Console.WriteLine(order.OrderCustomer.CustFirstName);
+            //                Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, for a total of ${order.OrderTotal}");
+            //            }
+
+            //            do
+            //            {
+            //                Console.Write("\nPlease enter the order number you would like to view, or \"Go back\" to return to the previous options: ");
+            //                userInput = input.GetInput();
+            //                if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
+            //                {
+            //                    break;
+            //                }
+            //                else
+            //                {
+            //                    try
+            //                    {
+            //                        int userOrderChoice = int.Parse(userInput);
+
+            //                        foreach (Order order in locationOrders)
+            //                        {
+            //                            if (order.OrderID == userOrderChoice)
+            //                            {
+            //                                queriedOrder = order;
+
+            //                                //TODO: Revisit object coupling to fetch product name
+            //                                //var queriedLineItems =
+            //                                //    (from line in db.OrderLineItemsDB
+            //                                //     where line.LineItemOrder == queriedOrder
+            //                                //     select line).ToList();
+            //                                //Console.WriteLine();
+            //                                //foreach (OrderLineItem item in queriedLineItems)
+            //                                //{
+            //                                //    Console.WriteLine($"Line item #{item.OrderLineItemID}: ");
+            //                                //}
+
+            //                                Console.Write("Press enter to continue when you are finished with this order: ");
+            //                                userInput = input.GetInput();
+            //                                break;
+            //                            }
+            //                        }
+            //                        if (queriedOrder == null)
+            //                        {
+            //                            throw new ArgumentOutOfRangeException();
+            //                        }
+            //                    }
+            //                    catch (Exception)
+            //                    {
+            //                        Console.WriteLine("Error: please check your input, and try again.");
+            //                    }
+            //                }
+
+                            
+            //            } while (true);
+
+            //        }
+            //        catch (Exception)
+            //        {
+            //            Console.WriteLine("Error: please check your input, and try again.");
+            //        }
+            //    }
+            //} while (true);
+        
         }
 
         /// <summary>
@@ -101,7 +193,7 @@ namespace BitsAndBobs
                             //Tried to join customer table in to reference customer names, but kept getting null refs
                             var locationOrders =
                                 (from ord in db.OrdersDB
-                                 /*join cust in db.CustomersDB on ord.OrderCustomer.CustomerID equals cust.CustomerID*/
+                                     /*join cust in db.CustomersDB on ord.OrderCustomer.CustomerID equals cust.CustomerID*/
                                  where (ord.OrderLocation.LocationID == userLocationChoice)
                                  select ord);
 
@@ -110,7 +202,7 @@ namespace BitsAndBobs
                             //iterate through the new query, listing each order found.
                             foreach (Order order in locationOrders)
                             {
-                                //TODO revisit object coupling
+                                //TODO: revisit object coupling
                                 //Console.WriteLine(order.OrderCustomer.CustFirstName);
                                 Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, for a total of ${order.OrderTotal}");
                             }
@@ -128,14 +220,29 @@ namespace BitsAndBobs
                                     try
                                     {
                                         int userOrderChoice = int.Parse(userInput);
-                                        
+
                                         foreach (Order order in locationOrders)
                                         {
                                             if (order.OrderID == userOrderChoice)
                                             {
                                                 queriedOrder = order;
+
+                                                //TODO: Revisit object coupling to fetch product name
+                                                //var queriedLineItems =
+                                                //    (from line in db.OrderLineItemsDB
+                                                //     where line.LineItemOrder == queriedOrder
+                                                //     select line).ToList();
+                                                //Console.WriteLine();
+                                                //foreach (OrderLineItem item in queriedLineItems)
+                                                //{
+                                                //    Console.WriteLine($"Line item #{item.OrderLineItemID}: ");
+                                                //}
                                             }
-                                        }                                        
+                                        }
+                                        if (queriedOrder == null)
+                                        {
+                                            throw new ArgumentOutOfRangeException();
+                                        }
                                     }
                                     catch (Exception)
                                     {
