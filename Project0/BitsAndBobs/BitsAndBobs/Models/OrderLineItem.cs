@@ -6,45 +6,36 @@ namespace BitsAndBobs.Models
 {
     public class OrderLineItem
     {
+		/// <summary>
+		/// Primary Key -- 
+		/// Property for the ID of the line item.
+		/// </summary>
         public int OrderLineItemID { get; set; }
 
-		private int orderID;
+		/// <summary>
+		/// Property for the Order ID of the item.
+		/// </summary>
+		public Order LineItemOrder { get; set; }
 
-		public int OrderID
-		{
-			get { return orderID; }
-			set { orderID = value; }
-		}
+		/// <summary>
+		/// Property for the Product ID of the line item.
+		/// </summary>
+		public Product LineItemProduct { get; set; }
 
-		private int productID;
+		/// <summary>
+		/// Property for the quantity of the line item.
+		/// </summary>
+		public int Quantity { get; set; }
 
-		public int ProductID
-		{
-			get { return productID; }
-			set { productID = value; }
-		}
-
-
-		private int quantity;
-
-		public int Quantity
-		{
-			get { return quantity; }
-			set { quantity = value; }
-		}
-
-		private double linePrice;
-
-		public double LinePrice
-		{
-			get { return linePrice; }
-			set { linePrice = value; }
-		}
+		/// <summary>
+		/// Property for the total price of the line item.
+		/// </summary>
+		public double LinePrice { get; set; }
 
 		/// <summary>
 		/// Empty Constructor
 		/// </summary>
-		//public OrderLineItem() { }
+		public OrderLineItem() { }
 
 		/// <summary>
 		/// Constructor which takes in the ID of the order, the ID of the product, and the quantity, and fills in the total before pushing to the server.

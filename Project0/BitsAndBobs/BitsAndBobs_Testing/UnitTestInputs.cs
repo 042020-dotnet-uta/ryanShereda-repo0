@@ -53,4 +53,28 @@ namespace BitsAndBobs_Testing
             return inputs[index++];
         }
     }
+
+    //Pre-generated inputs for Unit Test 5: Order Lookup by Location
+    public class UnitTest5Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "Location", "1", "2", "", "go back", "go back", "go back" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 5: Order Lookup by Location
+    public class UnitTest6Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "name", "Annie", "1", "", "go back", "go back", "go back" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
 }

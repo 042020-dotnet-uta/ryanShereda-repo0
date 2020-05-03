@@ -9,36 +9,13 @@ namespace BitsAndBobs.Models
     {
         public int CustomerID { get; set; }
 
-		private String custFirstName;
-		public String CustFirstName
-		{
-			get { return custFirstName; }
-			set { custFirstName = value; }
-		}
+		public String CustFirstName { get; set; }
 
-		private String custLastName;
+		public String CustLastName { get; set; }
 
-		public String CustLastName
-		{
-			get { return custLastName; }
-			set { custLastName = value; }
-		}
+		public String CustUsername { get; set; }
 
-		private String custUsername;
-
-		public String CustUsername
-		{
-			get { return custUsername; }
-			set { custUsername = value; }
-		}
-
-		private String custPassword;
-
-		public String CustPassword
-		{
-			get { return custPassword; }
-			set { custPassword = value; }
-		}
+		public String CustPassword { get; set; }
 
 		public Customer() { }
 

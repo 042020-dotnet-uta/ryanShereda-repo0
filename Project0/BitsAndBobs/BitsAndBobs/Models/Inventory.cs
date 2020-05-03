@@ -8,30 +8,12 @@ namespace BitsAndBobs.Models
     {
         public int InventoryID { get; set; }
 
-		private int locationID;
+		public Location InventoryLocation { get; set; }
 
-		public int LocationID
-		{
-			get { return locationID; }
-			set { locationID = value; }
-		}
+		public Product InventoryProduct { get; set; }
 
-		private int productID;
+		public int QuantityAvailable { get; set; }
 
-		public int ProductID
-		{
-			get { return productID; }
-			set { productID = value; }
-		}
-
-		private int productQuantity;
-
-		public int ProductQuantity
-		{
-			get { return productQuantity; }
-			set { productQuantity = value; }
-		}
-
-		//public Inventory() { }
+		public Inventory() { }
 	}
 }

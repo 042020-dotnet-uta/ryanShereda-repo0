@@ -6,40 +6,29 @@ namespace BitsAndBobs.Models
 {
     public class Order
     {
+		/// <summary>
+		/// Primery Key -- 
+		/// Property for the ID of the order.
+		/// </summary>
         public int OrderID { get; set; }
 
-		private int customerID;
+		/// <summary>
+		/// Property for the Customer ID of the order.
+		/// </summary>
+		public Customer OrderCustomer { get; set; }
 
-		public int CustomerID
+		public Location OrderLocation { get; set; }
+
+		public DateTime OrderDate { get; set; }
+
+		public double OrderTotal { get; set; }
+
+		public Order() {	}
+
+		public Order(Customer customer, Location location)
 		{
-			get { return customerID; }
-			set { customerID = value; }
+			OrderCustomer = customer;
+			OrderLocation = location;
 		}
-
-		private int locationID;
-
-		public int LocationID
-		{
-			get { return locationID; }
-			set { locationID = value; }
-		}
-
-		private DateTime orderDate;
-
-		public DateTime OrderDate
-		{
-			get { return orderDate; }
-			set { orderDate = value; }
-		}
-
-		private int orderTotal;
-
-		public int OrderTotal
-		{
-			get { return orderTotal; }
-			set { orderTotal = value; }
-		}
-
-		//public Order() {	}
 	}
 }

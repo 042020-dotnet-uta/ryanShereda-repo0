@@ -1,4 +1,5 @@
 ﻿using BitsAndBobs.Models;
+using BitsAndBobs.InputManagement;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,21 +7,11 @@ using System.Linq;
 
 namespace BitsAndBobs
 {
-    //input reader for LogIn
-    class UserInputLogIn : IUserInput
-    {
-        public string GetInput()
-        {
-            //NEEDS INPUT VALIDATION
-            return Console.ReadLine();
-        }
-    }
-
     //This class handles the login feature, diverting to the Customer Creation class as needed.
     public class LogIn
     {
         //Creates a static variable to keep track of the current logged in customer's customerID for reference throughout the program.
-        private static int loggedInCustomerID = -1;
+        private int loggedInCustomerID = -1;
         public int LoggedInCustomerID
         {
             get { return loggedInCustomerID; }
@@ -29,11 +20,11 @@ namespace BitsAndBobs
         //initialize variable to hold user input in this class
         String userInput = "";
 
-
         /// <summary>
-        /// This method welcomes the user, then calls the main method of the class with the LogIn input reader
+        /// This method handles the main LogIn functions, using the given input device
         /// </summary>
-        public void LogInWelcome()
+        /// <param name="input">The input reader to be used for this method.</param>
+        public void LogInStart(IUserInput input, BaB_DbContext db)
         {
             //print statement welcoming user
             Console.WriteLine("Welcome!");
@@ -41,19 +32,7 @@ namespace BitsAndBobs
             //Re-initialize the logged in customer's ID to -1, in case of returning to this method!
             loggedInCustomerID = -1;
 
-            //initialize a database reference for the LogIn sequence, to be passed into the other methods
-            BaB_DbContext databaseRef = new BaB_DbContext();
-            
-            //call LogInStart method, implementing a new User Input "device"
-            LogInStart(new UserInputLogIn(), databaseRef);
-        }
-
-        /// <summary>
-        /// This method handles the main LogIn functions, using the given input device
-        /// </summary>
-        /// <param name="input">The input reader to be used for this method.</param>
-        public void LogInStart(IUserInput input, BaB_DbContext db)
-        {
+            //start method logic
             do
             {
                 //Ask if they would like to "Sign in" or "Create an account"
