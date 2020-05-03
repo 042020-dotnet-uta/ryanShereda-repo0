@@ -58,7 +58,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest5Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "sign up", "Mitchell", "Hemingway", "MHemingway", "password" };
+        String[] inputs = new string[] { "Location", "Mitchell", "Hemingway", "MHemingway", "password" };
 
         public String GetInput()
         {

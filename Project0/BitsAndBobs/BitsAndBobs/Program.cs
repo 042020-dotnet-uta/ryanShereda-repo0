@@ -13,8 +13,14 @@ namespace BitsAndBobs
             UserInput userInput = new UserInput();
             BaB_DbContext databaseReference = new BaB_DbContext();
 
-            LogIn logInObject = new LogIn();
-            logInObject.LogInStart(userInput, databaseReference);
+            //LogIn logInObject = new LogIn();
+            //logInObject.LogInStart(userInput, databaseReference);
+
+            SearchPastOrders lookup = new SearchPastOrders();
+            lookup.OrderLookup(userInput, databaseReference);
+
+            //Clear the console after log-in
+            //Console.Clear();
         }
     }
 }

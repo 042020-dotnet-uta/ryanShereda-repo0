@@ -11,7 +11,7 @@ namespace BitsAndBobs
     public class LogIn
     {
         //Creates a static variable to keep track of the current logged in customer's customerID for reference throughout the program.
-        private static int loggedInCustomerID = -1;
+        private int loggedInCustomerID = -1;
         public int LoggedInCustomerID
         {
             get { return loggedInCustomerID; }
@@ -32,6 +32,7 @@ namespace BitsAndBobs
             //Re-initialize the logged in customer's ID to -1, in case of returning to this method!
             loggedInCustomerID = -1;
 
+            //start method logic
             do
             {
                 //Ask if they would like to "Sign in" or "Create an account"
