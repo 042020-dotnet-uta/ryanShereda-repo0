@@ -65,4 +65,16 @@ namespace BitsAndBobs_Testing
             return inputs[index++];
         }
     }
+
+    //Pre-generated inputs for Unit Test 5: Order Lookup by Location
+    public class UnitTest6Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "sign up", "Mitchell", "Hemingway", "MHemingway", "password" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
 }
