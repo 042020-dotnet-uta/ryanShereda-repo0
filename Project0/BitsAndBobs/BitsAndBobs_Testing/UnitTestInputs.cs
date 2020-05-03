@@ -70,7 +70,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest6Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "name", "1", "1", "", "go back", "go back", "go back" };
+        String[] inputs = new string[] { "name", "Annie", "1", "", "go back", "go back", "go back" };
 
         public String GetInput()
         {

@@ -28,7 +28,8 @@ namespace BitsAndBobs
             Console.WriteLine("Past Order Search");
             Console.WriteLine("-----------------------------");
 
-            QueriedOrder = null;
+            //Reset queried order when entering the search menu
+            //QueriedOrder = null;
 
             //Start method logic
             do
@@ -39,10 +40,16 @@ namespace BitsAndBobs
                 userInput = input.GetInput();
                 if (userInput.ToLower() == "location")
                 {
+                    //reset queried order before beginning new search
+                    QueriedOrder = null;
+
                     OrderLookupLocation(input, db);
                 }
                 else if (userInput.ToLower() == "name")
                 {
+                    //reset queried order before beginning new search
+                    QueriedOrder = null;
+
                     OrderLookupCustomer(input, db);
                 }
                 else if ((userInput.ToLower() == "go back") || (userInput.ToLower() == "goback"))
@@ -64,16 +71,9 @@ namespace BitsAndBobs
         /// <param name="db">Database reference.</param>
         void OrderLookupCustomer(IUserInput input, BaB_DbContext db)
         {
-
-            //iterate through list, printing out each location
-            foreach (Location loc in locationsLookup)
-            {
-                Console.WriteLine($"{loc.LocationID}: {loc.LocationAddress}, {loc.LocationState}, {loc.LocationCountry}");
-            }
-
             do
             {
-                Console.Write("Please enter the number of the location you would like to search for, or \"Go back\" to return to the previous options: ");
+                Console.Write("Please enter the name you would like to search for, or \"Go back\" to return to the previous options: ");
                 userInput = input.GetInput();
                 if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
                 {
@@ -83,41 +83,45 @@ namespace BitsAndBobs
                 {
                     try
                     {
-                        int userLocationChoice = int.Parse(userInput);
-                        if ((userLocationChoice < 1) || (locationsLookup.Count() < userLocationChoice))
+                        String userNameInput = userInput;
+                        var dbCustomerOrders = db.OrdersDB
+                            .Include(ord => ord.OrderCustomer)
+                            .Where(ord => (ord.OrderCustomer.CustFirstName == userNameInput) || (ord.OrderCustomer.CustLastName == userNameInput));
+
+                        if (dbCustomerOrders.Count() == 0)
                         {
-                            throw new ArgumentOutOfRangeException();
+                            Console.WriteLine("No customers found with this name.");
                         }
                         else
                         {
-                            //Tried to join customer table in to reference customer names, but kept getting null refs
-                            var dbLocationOrders = db.OrdersDB
-                                .Include(ord => ord.OrderCustomer)
-                                .Where(ord => ord.OrderLocation.LocationID == userLocationChoice);
-
-                            Console.WriteLine("Orders from this location: \n");
+                            Console.WriteLine("Customer matches: \n");
 
                             //iterate through the new query, listing each order found.
-                            foreach (var order in dbLocationOrders)
+                            foreach (var order in dbCustomerOrders)
                             {
                                 Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName} for a total of ${order.OrderTotal}");
                             }
 
+
                             do
                             {
+
                                 Console.Write("\nPlease enter the order number you would like to view, or \"Go back\" to return to the previous options: ");
                                 userInput = input.GetInput();
+
+
                                 if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
                                 {
                                     break;
                                 }
                                 else
                                 {
+
                                     try
                                     {
                                         int userOrderChoice = int.Parse(userInput);
 
-                                        foreach (var order in dbLocationOrders)
+                                        foreach (var order in dbCustomerOrders)
                                         {
                                             if (order.OrderID == userOrderChoice)
                                             {
@@ -134,6 +138,11 @@ namespace BitsAndBobs
                                                 {
                                                     Console.WriteLine($"Line item #{item.OrderLineItemID}: {item.Quantity} units of {item.LineItemProduct.ProductName} for ${item.LinePrice}");
                                                 }
+
+
+                                                Console.Write("\nPress enter to continue when you are finished with this order: ");
+                                                userInput = input.GetInput();
+                                                break;
                                             }
                                         }
                                         if (queriedOrder == null)
@@ -146,9 +155,6 @@ namespace BitsAndBobs
                                         Console.WriteLine("Error: please check your input, and try again.");
                                     }
                                 }
-
-                                Console.Write("\nPress enter to continue when you are finished with this order: ");
-                                userInput = input.GetInput();
                             } while (true);
                         }
                     }
@@ -198,66 +204,73 @@ namespace BitsAndBobs
                         }
                         else
                         {
-                            //Tried to join customer table in to reference customer names, but kept getting null refs
                             var dbLocationOrders = db.OrdersDB
                                 .Include(ord => ord.OrderCustomer)
                                 .Where(ord => ord.OrderLocation.LocationID == userLocationChoice);
 
-                            Console.WriteLine("Orders from this location: \n");
-
-                            //iterate through the new query, listing each order found.
-                            foreach (var order in dbLocationOrders)
+                            if (dbLocationOrders.Count() == 0)
                             {
-                                Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName} for a total of ${order.OrderTotal}");
+                                Console.WriteLine("No orders placed from this location.");
                             }
-
-                            do
+                            else
                             {
-                                Console.Write("\nPlease enter the order number you would like to view, or \"Go back\" to return to the previous options: ");
-                                userInput = input.GetInput();
-                                if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
+                                Console.WriteLine("Orders from this location: \n");
+
+                                //iterate through the new query, listing each order found.
+                                foreach (var order in dbLocationOrders)
                                 {
-                                    break;
+                                    Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName} for a total of ${order.OrderTotal}");
                                 }
-                                else
+
+                                do
                                 {
-                                    try
+                                    Console.Write("\nPlease enter the order number you would like to view, or \"Go back\" to return to the previous options: ");
+                                    userInput = input.GetInput();
+                                    if ((userInput.ToLower() == "go back") || userInput.ToLower() == "goback")
                                     {
-                                        int userOrderChoice = int.Parse(userInput);
-
-                                        foreach (var order in dbLocationOrders)
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        try
                                         {
-                                            if (order.OrderID == userOrderChoice)
+                                            int userOrderChoice = int.Parse(userInput);
+
+                                            foreach (var order in dbLocationOrders)
                                             {
-                                                queriedOrder = order;
-
-                                                var queriedLineItems = 
-                                                    db.OrderLineItemsDB
-                                                    .Include(ord => ord.LineItemOrder)
-                                                    .Include(prod => prod.LineItemProduct)
-                                                    .Where(ord => ord.LineItemOrder.OrderID == userOrderChoice);
-
-                                                Console.WriteLine("\nOrder Line Item breakdown: ");
-                                                foreach (var item in queriedLineItems)
+                                                if (order.OrderID == userOrderChoice)
                                                 {
-                                                    Console.WriteLine($"Line item #{item.OrderLineItemID}: {item.Quantity} units of {item.LineItemProduct.ProductName} for ${item.LinePrice}");
+                                                    queriedOrder = order;
+
+                                                    var queriedLineItems =
+                                                        db.OrderLineItemsDB
+                                                        .Include(ord => ord.LineItemOrder)
+                                                        .Include(prod => prod.LineItemProduct)
+                                                        .Where(ord => ord.LineItemOrder.OrderID == userOrderChoice);
+
+                                                    Console.WriteLine("\nOrder Line Item breakdown: ");
+                                                    foreach (var item in queriedLineItems)
+                                                    {
+                                                        Console.WriteLine($"Line item #{item.OrderLineItemID}: {item.Quantity} units of {item.LineItemProduct.ProductName} for ${item.LinePrice}");
+                                                    }
+
+                                                    Console.Write("\nPress enter to continue when you are finished with this order: ");
+                                                    userInput = input.GetInput();
+                                                    break;
                                                 }
                                             }
+                                            if (queriedOrder == null)
+                                            {
+                                                throw new ArgumentOutOfRangeException();
+                                            }
                                         }
-                                        if (queriedOrder == null)
+                                        catch (Exception)
                                         {
-                                            throw new ArgumentOutOfRangeException();
+                                            Console.WriteLine("Error: please check your input, and try again.");
                                         }
                                     }
-                                    catch (Exception)
-                                    {
-                                        Console.WriteLine("Error: please check your input, and try again.");
-                                    }
-                                }
-
-                                Console.Write("\nPress enter to continue when you are finished with this order: ");
-                                userInput = input.GetInput();
-                            } while (true);
+                                } while (true);
+                            }
                         }
                     }
                     catch (Exception)

@@ -338,7 +338,7 @@ namespace BitsAndBobs_Testing
 
         /// <summary>
         /// Test 6 -- 
-        /// This test looks up existing orders by customer name, returning information about one.
+        /// This test looks up existing orders by customer first name, returning information about one.
         /// </summary>
         [Fact]
         public void TestOrderLookupCustomer()
