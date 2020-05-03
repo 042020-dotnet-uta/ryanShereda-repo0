@@ -23,7 +23,6 @@ namespace BitsAndBobs
         public void OrderLookup(IUserInput input, BaB_DbContext db)
         {
             //welcome the user
-            Console.Clear();
             Console.WriteLine("-----------------------------");
             Console.WriteLine("Past Order Search");
             Console.WriteLine("-----------------------------");
@@ -99,16 +98,20 @@ namespace BitsAndBobs
                         }
                         else
                         {
+                            //Tried to join customer table in to reference customer names, but kept getting null refs
                             var locationOrders =
                                 (from ord in db.OrdersDB
+                                 /*join cust in db.CustomersDB on ord.OrderCustomer.CustomerID equals cust.CustomerID*/
                                  where (ord.OrderLocation.LocationID == userLocationChoice)
-                                 select ord).ToList();
+                                 select ord);
 
                             Console.WriteLine("Orders from this location: \n");
 
                             //iterate through the new query, listing each order found.
                             foreach (Order order in locationOrders)
                             {
+                                //TODO revisit object coupling
+                                //Console.WriteLine(order.OrderCustomer.CustFirstName);
                                 Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, for a total of ${order.OrderTotal}");
                             }
 
@@ -125,15 +128,14 @@ namespace BitsAndBobs
                                     try
                                     {
                                         int userOrderChoice = int.Parse(userInput);
-                                        if (true)
+                                        
+                                        foreach (Order order in locationOrders)
                                         {
-                                            throw new ArgumentOutOfRangeException();
-                                        }
-                                        else
-                                        {
-
-                                        }
-
+                                            if (order.OrderID == userOrderChoice)
+                                            {
+                                                queriedOrder = order;
+                                            }
+                                        }                                        
                                     }
                                     catch (Exception)
                                     {
@@ -142,7 +144,7 @@ namespace BitsAndBobs
                                 }
 
                                 Console.Write("Press enter to continue when you are finished with this order: ");
-                                Console.ReadLine();
+                                userInput = input.GetInput();
                             } while (true);
                         }
                     }
