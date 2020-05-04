@@ -11,10 +11,10 @@ namespace BitsAndBobs
     public class LogIn
     {
         //Creates a static variable to keep track of the current logged in customer's customerID for reference throughout the program.
-        private int loggedInCustomerID = -1;
-        public int LoggedInCustomerID
+        private Customer loggedInCustomer = new Customer();
+        public Customer LoggedInCustomer
         {
-            get { return loggedInCustomerID; }
+            get { return loggedInCustomer; }
         }
 
         //initialize variable to hold user input in this class
@@ -30,7 +30,7 @@ namespace BitsAndBobs
             Console.WriteLine("Welcome!");
 
             //Re-initialize the logged in customer's ID to -1, in case of returning to this method!
-            loggedInCustomerID = -1;
+            loggedInCustomer = null;
 
             //start method logic
             do
@@ -57,7 +57,7 @@ namespace BitsAndBobs
                 {
                     Console.WriteLine("Invalid command; Please verify your input, and try again.");
                 }
-            } while (LoggedInCustomerID == -1) ;
+            } while (LoggedInCustomer == null) ;
         }
 
         void LogInExistingUser(IUserInput input, BaB_DbContext db)
@@ -85,7 +85,8 @@ namespace BitsAndBobs
                         where ((attempt.CustUsername == inputUsername) && (attempt.CustPassword == inputPassword))
                         select attempt).First();
                     Console.WriteLine("Login success! Please wait...");
-                    loggedInCustomerID = logInAttempt.CustomerID;
+
+                    loggedInCustomer = logInAttempt;
                     return;
                 }
                 catch (Exception)
@@ -157,10 +158,7 @@ namespace BitsAndBobs
             db.SaveChanges();
 
             //query database for newly created Customer's customerID
-            loggedInCustomerID =
-                (from id in db.CustomersDB
-                 where (id.CustUsername == newUsername)
-                 select id.CustomerID).FirstOrDefault();
+            loggedInCustomer = newCustomer;
         }
     }
 
