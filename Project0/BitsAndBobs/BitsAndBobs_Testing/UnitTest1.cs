@@ -53,7 +53,7 @@ namespace BitsAndBobs_Testing
             using (var context = new BaB_DbContext(options))
             {
                 //var testCustomer = context.CustomersDB.Where(c => c.CustUsername == "testUser").FirstOrDefault();
-                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomerID);
+                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomer.CustomerID);
             }
         }
 
@@ -100,7 +100,7 @@ namespace BitsAndBobs_Testing
             using (var context = new BaB_DbContext(options))
             {
                 //var testCustomer = context.CustomersDB.Where(c => c.CustUsername == "testUser").FirstOrDefault();
-                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomerID);
+                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomer.CustomerID);
             }
         }
 
@@ -148,7 +148,7 @@ namespace BitsAndBobs_Testing
             using (var context = new BaB_DbContext(options))
             {
                 //var testCustomer = context.CustomersDB.Where(c => c.CustUsername == "testUser").FirstOrDefault();
-                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomerID);
+                Assert.Equal(testCustomer.CustomerID, testLogInObject.LoggedInCustomer.CustomerID);
             }
         }
 
