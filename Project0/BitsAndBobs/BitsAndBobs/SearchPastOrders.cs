@@ -99,7 +99,9 @@ namespace BitsAndBobs
                             //iterate through the new query, listing each order found.
                             foreach (var order in dbCustomerOrders)
                             {
-                                Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName} for a total of ${order.OrderTotal}");
+                                //var orderTotal = db.OrderLineItemsDB
+                                //Raw SQL code for total: SELECT SUM(LinePrice) FROM OrderLineItemsDB WHERE LineItemOrderOrderID = 3;
+                                Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName}"/* for a total of ${order.OrderTotal}"*/);
                             }
 
 
@@ -177,12 +179,12 @@ namespace BitsAndBobs
             Console.WriteLine("Locations:");
 
             //query database for list of locations
-            var locationsLookup = db.LocationsDB.ToList();
+            var locationsLookup = db.LocationsDB.Include(loc => loc.LocationState).Include(loc => loc.LocationCountry).ToList();
 
             //iterate through list, printing out each location
             foreach (Location loc in locationsLookup)
             {
-                Console.WriteLine($"{loc.LocationID}: {loc.LocationAddress}, {loc.LocationState}, {loc.LocationCountry}");
+                Console.WriteLine($"{loc.LocationID}: {loc.LocationAddress}, {loc.LocationState.State}, {loc.LocationCountry.Country}");
             }
 
             do
@@ -219,7 +221,9 @@ namespace BitsAndBobs
                                 //iterate through the new query, listing each order found.
                                 foreach (var order in dbLocationOrders)
                                 {
-                                    Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName} for a total of ${order.OrderTotal}");
+                                    //var orderTotal = db.OrderLineItemsDB
+                                    //Raw SQL code for total: SELECT SUM(LinePrice) FROM OrderLineItemsDB WHERE LineItemOrderOrderID = 3;
+                                    Console.WriteLine($"Order #{order.OrderID}: Placed {order.OrderDate}, by {order.OrderCustomer.CustFirstName} {order.OrderCustomer.CustLastName}"/* for a total of ${order.OrderTotal}"*/);
                                 }
 
                                 do

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BitsAndBobs.Migrations
 {
     [DbContext(typeof(BaB_DbContext))]
-    [Migration("20200502175324_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200504001047_ThirdNormalRefactor")]
+    partial class ThirdNormalRefactor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,15 +74,47 @@ namespace BitsAndBobs.Migrations
                     b.Property<string>("LocationAddress")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LocationCountry")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("LocationCountryID")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("LocationState")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("LocationStateID")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("LocationID");
 
+                    b.HasIndex("LocationCountryID");
+
+                    b.HasIndex("LocationStateID");
+
                     b.ToTable("LocationsDB");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.LocationCountry", b =>
+                {
+                    b.Property<int>("LocationCountryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LocationCountryID");
+
+                    b.ToTable("LocationCountry");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.LocationState", b =>
+                {
+                    b.Property<int>("LocationStateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LocationStateID");
+
+                    b.ToTable("LocationState");
                 });
 
             modelBuilder.Entity("BitsAndBobs.Models.Order", b =>
@@ -99,9 +131,6 @@ namespace BitsAndBobs.Migrations
 
                     b.Property<int?>("OrderLocationLocationID")
                         .HasColumnType("INTEGER");
-
-                    b.Property<double>("OrderTotal")
-                        .HasColumnType("REAL");
 
                     b.HasKey("OrderID");
 
@@ -165,6 +194,17 @@ namespace BitsAndBobs.Migrations
                     b.HasOne("BitsAndBobs.Models.Product", "InventoryProduct")
                         .WithMany()
                         .HasForeignKey("InventoryProductProductID");
+                });
+
+            modelBuilder.Entity("BitsAndBobs.Models.Location", b =>
+                {
+                    b.HasOne("BitsAndBobs.Models.LocationCountry", "LocationCountry")
+                        .WithMany()
+                        .HasForeignKey("LocationCountryID");
+
+                    b.HasOne("BitsAndBobs.Models.LocationState", "LocationState")
+                        .WithMany()
+                        .HasForeignKey("LocationStateID");
                 });
 
             modelBuilder.Entity("BitsAndBobs.Models.Order", b =>
