@@ -16,8 +16,22 @@ namespace BitsAndBobs
             //LogIn logInObject = new LogIn();
             //logInObject.LogInStart(userInput, databaseReference);
 
-            SearchPastOrders lookup = new SearchPastOrders();
-            lookup.OrderLookup(userInput, databaseReference);
+            //SearchPastOrders lookup = new SearchPastOrders();
+            //lookup.OrderLookup(userInput, databaseReference);
+
+            PlaceOrder placeOrder = new PlaceOrder();
+            Customer testCustomer1 = new Customer
+            {
+                CustFirstName = "Annie",
+                CustLastName = "Admin",
+                CustUsername = "testUser",
+                CustPassword = "testPass"
+            };
+            do
+            {
+                placeOrder.CreateOrder(databaseReference, userInput, testCustomer1);
+            } while (true);
+            
 
             //Clear the console after log-in
             //Console.Clear();

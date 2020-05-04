@@ -5,6 +5,7 @@ using System.Linq;
 using BitsAndBobs;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BitsAndBobs_Testing
 {
@@ -354,9 +355,6 @@ namespace BitsAndBobs_Testing
             }
         }
 
-
-
-
         /// <summary>
         /// Test 6 -- 
         /// This test looks up existing orders by customer first name, returning information about one.
@@ -705,10 +703,10 @@ namespace BitsAndBobs_Testing
 
         /// <summary>
         /// Test 8 -- 
-        /// This test begins to create an order, then discards the order and returns out of the function.
+        /// This test begins to create an order, then attempts to apply an empty order.
         /// </summary>
         [Fact]
-        public void TestRejectOrder()
+        public void TestSubmitEmptyOrder()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
@@ -716,9 +714,83 @@ namespace BitsAndBobs_Testing
                 .Options;
 
             //Act
+            Customer testCustomer;
+
+            #region Test database seeding
             using (var context = new BaB_DbContext(options))
             {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
 
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                testCustomer = testCustomer1;
+
+                context.SaveChanges();
+            }
+
+            PlaceOrder testPlaceOrder = new PlaceOrder();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testPlaceOrder.CreateOrder(new UnitTest8Inputs(), context, testCustomer);
             }
 
             //Assert
@@ -728,15 +800,21 @@ namespace BitsAndBobs_Testing
             }
         }
 
+        /// <summary>
+        /// Test 9 -- 
+        /// This test creates an order with a single line item, and applies it to the database.
+        /// </summary>
         [Fact]
-        public void Test9()
+        public void TestSingleLineItemOrder()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
+                .UseInMemoryDatabase(databaseName: "Test9Db")
                 .Options;
 
             //Act
+
+
             using (var context = new BaB_DbContext(options))
             {
 
@@ -749,12 +827,16 @@ namespace BitsAndBobs_Testing
             }
         }
 
+        /// <summary>
+        /// Test 10 -- 
+        /// This test creates an order with multiple line items, then adds it to the database.
+        /// </summary>
         [Fact]
-        public void Test10()
+        public void TestMultipleLineItemOrder()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
+                .UseInMemoryDatabase(databaseName: "Test10Db")
                 .Options;
 
             //Act

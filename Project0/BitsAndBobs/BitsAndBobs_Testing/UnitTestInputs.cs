@@ -89,4 +89,16 @@ namespace BitsAndBobs_Testing
             return inputs[index++];
         }
     }
+
+    //Pre-generated inputs for Unit Test 8: Empty Order Placement
+    public class UnitTest8Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "name", "Admin", "1", "", "go back", "go back", "go back" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
 }

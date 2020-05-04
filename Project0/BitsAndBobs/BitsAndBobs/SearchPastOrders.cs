@@ -25,7 +25,7 @@ namespace BitsAndBobs
         {
             //welcome the user
             Console.WriteLine("-----------------------------");
-            Console.WriteLine("Past Order Search");
+            Console.WriteLine("     Past Order Search");
             Console.WriteLine("-----------------------------");
 
             //Reset queried order when entering the search menu
