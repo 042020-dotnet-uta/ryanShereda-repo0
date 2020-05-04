@@ -4,6 +4,7 @@ using BitsAndBobs.Models;
 using System.Linq;
 using BitsAndBobs;
 using System;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace BitsAndBobs_Testing
 {
@@ -228,20 +229,40 @@ namespace BitsAndBobs_Testing
                 context.Add(testProduct);
                 #endregion
 
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
                 #region Locations
                 //Add locations to the test database
                 Location testLocation1 = new Location
                 {
                     LocationAddress = "1 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 Location testLocation2 = new Location
                 {
                     LocationAddress = "2 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 context.Add(testLocation1);
@@ -255,7 +276,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer1,
                     OrderLocation = testLocation2,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 3
+                    //OrderTotal = 3
                 };
 
                 Order testOrder2 = new Order
@@ -263,7 +284,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer2,
                     OrderLocation = testLocation1,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 7
+                    //OrderTotal = 7
                 };
 
                 context.Add(testOrder1);
@@ -385,20 +406,40 @@ namespace BitsAndBobs_Testing
                 context.Add(testProduct);
                 #endregion
 
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
                 #region Locations
                 //Add locations to the test database
                 Location testLocation1 = new Location
                 {
                     LocationAddress = "1 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 Location testLocation2 = new Location
                 {
                     LocationAddress = "2 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 context.Add(testLocation1);
@@ -412,7 +453,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer1,
                     OrderLocation = testLocation2,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 3
+                    //OrderTotal = 3
                 };
 
                 Order testOrder2 = new Order
@@ -420,7 +461,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer2,
                     OrderLocation = testLocation1,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 7
+                    //OrderTotal = 7
                 };
 
                 context.Add(testOrder1);
@@ -538,20 +579,40 @@ namespace BitsAndBobs_Testing
                 context.Add(testProduct);
                 #endregion
 
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
                 #region Locations
                 //Add locations to the test database
                 Location testLocation1 = new Location
                 {
                     LocationAddress = "1 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 Location testLocation2 = new Location
                 {
                     LocationAddress = "2 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 context.Add(testLocation1);
@@ -565,7 +626,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer1,
                     OrderLocation = testLocation2,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 3
+                    //OrderTotal = 3
                 };
 
                 Order testOrder2 = new Order
@@ -573,7 +634,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer2,
                     OrderLocation = testLocation1,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 7
+                    //OrderTotal = 7
                 };
 
                 context.Add(testOrder1);

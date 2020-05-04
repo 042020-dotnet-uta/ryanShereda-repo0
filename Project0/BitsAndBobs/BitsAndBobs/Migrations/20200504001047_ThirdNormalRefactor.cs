@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BitsAndBobs.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ThirdNormalRefactor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,18 +24,29 @@ namespace BitsAndBobs.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocationsDB",
+                name: "LocationCountry",
                 columns: table => new
                 {
-                    LocationID = table.Column<int>(nullable: false)
+                    LocationCountryID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LocationAddress = table.Column<string>(nullable: true),
-                    LocationState = table.Column<string>(nullable: true),
-                    LocationCountry = table.Column<string>(nullable: true)
+                    Country = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocationsDB", x => x.LocationID);
+                    table.PrimaryKey("PK_LocationCountry", x => x.LocationCountryID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LocationState",
+                columns: table => new
+                {
+                    LocationStateID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    State = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocationState", x => x.LocationStateID);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,30 +64,29 @@ namespace BitsAndBobs.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrdersDB",
+                name: "LocationsDB",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(nullable: false)
+                    LocationID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    OrderCustomerCustomerID = table.Column<int>(nullable: true),
-                    OrderLocationLocationID = table.Column<int>(nullable: true),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    OrderTotal = table.Column<double>(nullable: false)
+                    LocationAddress = table.Column<string>(nullable: true),
+                    LocationStateID = table.Column<int>(nullable: true),
+                    LocationCountryID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrdersDB", x => x.OrderID);
+                    table.PrimaryKey("PK_LocationsDB", x => x.LocationID);
                     table.ForeignKey(
-                        name: "FK_OrdersDB_CustomersDB_OrderCustomerCustomerID",
-                        column: x => x.OrderCustomerCustomerID,
-                        principalTable: "CustomersDB",
-                        principalColumn: "CustomerID",
+                        name: "FK_LocationsDB_LocationCountry_LocationCountryID",
+                        column: x => x.LocationCountryID,
+                        principalTable: "LocationCountry",
+                        principalColumn: "LocationCountryID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrdersDB_LocationsDB_OrderLocationLocationID",
-                        column: x => x.OrderLocationLocationID,
-                        principalTable: "LocationsDB",
-                        principalColumn: "LocationID",
+                        name: "FK_LocationsDB_LocationState_LocationStateID",
+                        column: x => x.LocationStateID,
+                        principalTable: "LocationState",
+                        principalColumn: "LocationStateID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -104,6 +114,33 @@ namespace BitsAndBobs.Migrations
                         column: x => x.InventoryProductProductID,
                         principalTable: "ProductsDB",
                         principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrdersDB",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderCustomerCustomerID = table.Column<int>(nullable: true),
+                    OrderLocationLocationID = table.Column<int>(nullable: true),
+                    OrderDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdersDB", x => x.OrderID);
+                    table.ForeignKey(
+                        name: "FK_OrdersDB_CustomersDB_OrderCustomerCustomerID",
+                        column: x => x.OrderCustomerCustomerID,
+                        principalTable: "CustomersDB",
+                        principalColumn: "CustomerID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrdersDB_LocationsDB_OrderLocationLocationID",
+                        column: x => x.OrderLocationLocationID,
+                        principalTable: "LocationsDB",
+                        principalColumn: "LocationID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -146,6 +183,16 @@ namespace BitsAndBobs.Migrations
                 column: "InventoryProductProductID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LocationsDB_LocationCountryID",
+                table: "LocationsDB",
+                column: "LocationCountryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LocationsDB_LocationStateID",
+                table: "LocationsDB",
+                column: "LocationStateID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderLineItemsDB_LineItemOrderOrderID",
                 table: "OrderLineItemsDB",
                 column: "LineItemOrderOrderID");
@@ -185,6 +232,12 @@ namespace BitsAndBobs.Migrations
 
             migrationBuilder.DropTable(
                 name: "LocationsDB");
+
+            migrationBuilder.DropTable(
+                name: "LocationCountry");
+
+            migrationBuilder.DropTable(
+                name: "LocationState");
         }
     }
 }
