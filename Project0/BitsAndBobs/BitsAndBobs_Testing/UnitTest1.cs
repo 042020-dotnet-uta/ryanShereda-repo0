@@ -4,6 +4,7 @@ using BitsAndBobs.Models;
 using System.Linq;
 using BitsAndBobs;
 using System;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace BitsAndBobs_Testing
 {
@@ -228,20 +229,40 @@ namespace BitsAndBobs_Testing
                 context.Add(testProduct);
                 #endregion
 
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
                 #region Locations
                 //Add locations to the test database
                 Location testLocation1 = new Location
                 {
                     LocationAddress = "1 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 Location testLocation2 = new Location
                 {
                     LocationAddress = "2 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 context.Add(testLocation1);
@@ -255,7 +276,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer1,
                     OrderLocation = testLocation2,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 3
+                    //OrderTotal = 3
                 };
 
                 Order testOrder2 = new Order
@@ -263,7 +284,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer2,
                     OrderLocation = testLocation1,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 7
+                    //OrderTotal = 7
                 };
 
                 context.Add(testOrder1);
@@ -341,7 +362,7 @@ namespace BitsAndBobs_Testing
         /// This test looks up existing orders by customer first name, returning information about one.
         /// </summary>
         [Fact]
-        public void TestOrderLookupCustomer()
+        public void TestOrderLookupCustomerFirstName()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
@@ -385,20 +406,40 @@ namespace BitsAndBobs_Testing
                 context.Add(testProduct);
                 #endregion
 
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
                 #region Locations
                 //Add locations to the test database
                 Location testLocation1 = new Location
                 {
                     LocationAddress = "1 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 Location testLocation2 = new Location
                 {
                     LocationAddress = "2 Street",
-                    LocationState = "Illinois",
-                    LocationCountry = "USA"
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
                 };
 
                 context.Add(testLocation1);
@@ -412,7 +453,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer1,
                     OrderLocation = testLocation2,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 3
+                    //OrderTotal = 3
                 };
 
                 Order testOrder2 = new Order
@@ -420,7 +461,7 @@ namespace BitsAndBobs_Testing
                     OrderCustomer = testCustomer2,
                     OrderLocation = testLocation1,
                     OrderDate = DateTime.Now,
-                    OrderTotal = 7
+                    //OrderTotal = 7
                 };
 
                 context.Add(testOrder1);
@@ -489,12 +530,189 @@ namespace BitsAndBobs_Testing
             }
         }
 
+        /// <summary>
+        /// Test 7 -- 
+        /// This test looks up existing orders by customer last name, returning information about one.
+        /// </summary>
         [Fact]
-        public void Test7()
+        public void TestOrderLookupCustomerLastName()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
+                .UseInMemoryDatabase(databaseName: "Test7DB")
+                .Options;
+
+            //Act
+            Order testOrder;
+            #region Test database seeding
+            using (var context = new BaB_DbContext(options))
+            {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
+
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region Products
+                //Add a product to the database for building with
+                Product testProduct = new Product
+                {
+                    ProductName = "Test product",
+                    ProductPrice = 1
+                };
+                context.Add(testProduct);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                #region Orders
+                //Add orders to the database for testing
+                Order testOrder1 = new Order
+                {
+                    OrderCustomer = testCustomer1,
+                    OrderLocation = testLocation2,
+                    OrderDate = DateTime.Now,
+                    //OrderTotal = 3
+                };
+
+                Order testOrder2 = new Order
+                {
+                    OrderCustomer = testCustomer2,
+                    OrderLocation = testLocation1,
+                    OrderDate = DateTime.Now,
+                    //OrderTotal = 7
+                };
+
+                context.Add(testOrder1);
+                context.Add(testOrder2);
+                #endregion
+
+                #region Line Items
+                //Add line items to the database for building with
+                OrderLineItem testLineItem1 = new OrderLineItem
+                {
+                    LineItemOrder = testOrder1,
+                    LineItemProduct = testProduct,
+                    Quantity = 1,
+                    LinePrice = 1
+                };
+
+                OrderLineItem testLineItem2 = new OrderLineItem
+                {
+                    LineItemOrder = testOrder1,
+                    LineItemProduct = testProduct,
+                    Quantity = 2,
+                    LinePrice = 2
+                };
+
+                OrderLineItem testLineItem3 = new OrderLineItem
+                {
+                    LineItemOrder = testOrder2,
+                    LineItemProduct = testProduct,
+                    Quantity = 3,
+                    LinePrice = 3
+                };
+
+                OrderLineItem testLineItem4 = new OrderLineItem
+                {
+                    LineItemOrder = testOrder2,
+                    LineItemProduct = testProduct,
+                    Quantity = 4,
+                    LinePrice = 4
+                };
+
+                context.Add(testLineItem1);
+                context.Add(testLineItem2);
+                context.Add(testLineItem3);
+                context.Add(testLineItem4);
+                #endregion
+
+                //fill in testOrder with one of the pre-seeded values
+                testOrder = testOrder1;
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            //Create object to hold the OrderLookup reference
+            SearchPastOrders testOrderLookupObject = new SearchPastOrders();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testOrderLookupObject.OrderLookup(new UnitTest7Inputs(), context);
+            }
+
+            //Assert
+            using (var context = new BaB_DbContext(options))
+            {
+                Assert.Equal(testOrder.OrderID, testOrderLookupObject.QueriedOrder.OrderID);
+            }
+        }
+
+        /// <summary>
+        /// Test 8 -- 
+        /// This test begins to create an order, then discards the order and returns out of the function.
+        /// </summary>
+        [Fact]
+        public void TestRejectOrder()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BaB_DbContext>()
+                .UseInMemoryDatabase(databaseName: "Test8Db")
                 .Options;
 
             //Act
@@ -510,26 +728,6 @@ namespace BitsAndBobs_Testing
             }
         }
 
-        [Fact]
-        public void Test8()
-        {
-            //Arrange
-            var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
-                .Options;
-
-            //Act
-            using (var context = new BaB_DbContext(options))
-            {
-
-            }
-
-            //Assert
-            using (var context = new BaB_DbContext(options))
-            {
-
-            }
-        }
         [Fact]
         public void Test9()
         {

@@ -10,9 +10,9 @@ namespace BitsAndBobs.Models
 
 		public String LocationAddress { get; set; }
 
-		public String LocationState { get; set; }
+		public LocationState LocationState { get; set; }
 
-		public String LocationCountry { get; set; }
+		public LocationCountry LocationCountry { get; set; }
 
 		public Location() { }
 	}

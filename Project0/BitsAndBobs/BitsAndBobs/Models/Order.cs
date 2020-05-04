@@ -21,7 +21,8 @@ namespace BitsAndBobs.Models
 
 		public DateTime OrderDate { get; set; }
 
-		public double OrderTotal { get; set; }
+		//Removed property due to 3rd Normalization--property can be derived from Line Orders
+		//public double OrderTotal { get; set; }
 
 		public Order() {	}
 
