@@ -127,7 +127,7 @@ namespace BitsAndBobs
                                                                 try
                                                                 {
                                                                     var userQuantityChoice = int.Parse(userInput);
-                                                                    if ((userQuantityChoice < 0) || (userProductChoice > prod.QuantityAvailable))
+                                                                    if ((userQuantityChoice < 0) || (userQuantityChoice > prod.QuantityAvailable))
                                                                     {
                                                                         throw new ArgumentOutOfRangeException();
                                                                     }
@@ -248,7 +248,13 @@ namespace BitsAndBobs
                                             {
                                                 db.Add(line);
                                             }
-                                            db.Update(inv);
+
+                                            foreach (var stock in inv)
+                                            {
+                                                db.Update(stock);
+                                            }
+                                            db.SaveChanges();
+                                            Console.WriteLine("Order successfully submitted!");
                                         }
 
 
