@@ -29,7 +29,7 @@ namespace BitsAndBobs
             };
             do
             {
-                placeOrder.CreateOrder(databaseReference, userInput, testCustomer1);
+                placeOrder.CreateOrder(userInput, databaseReference, testCustomer1);
             } while (true);
             
 

@@ -43,10 +43,18 @@ namespace BitsAndBobs.Models
 		/// <param name="orderID">The ID number of the order this belongs to.</param>
 		/// <param name="productID">The ID number of the product being ordered on this line.</param>
 		/// <param name="quantity">The amount of product being ordered on this line.</param>
-		public OrderLineItem(int orderID, int productID, int quantity)
+		public OrderLineItem(Order order, Product product, int lineQuantity)
 		{
+			LineItemOrder = order;
+			LineItemProduct = product;
+			Quantity = lineQuantity;
+		}
 
-
+		//Structure adapted from Microsoft Docs
+		//https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-implement-a-lightweight-class-with-auto-implemented-properties
+		public static OrderLineItem CreateLineItem(Order order, Product product, int lineQuantity)
+		{
+			return new OrderLineItem(order, product, lineQuantity);
 		}
 	}
 }

@@ -127,7 +127,7 @@ namespace BitsAndBobs
                 Console.Write("Please enter your desired username: ");
                 newUsername = input.GetInput();
 
-                if ((newUsername.ToLower() == "go back") || (newUsername.ToLower() == "goback"))
+                if ((newUsername.ToLower() == "go back") || (newUsername.ToLower() == "goback") || String.IsNullOrWhiteSpace(newUsername))
                 {
                     Console.WriteLine("We're sorry, that cannot be used for your username. Please try a different username. ");
                 }

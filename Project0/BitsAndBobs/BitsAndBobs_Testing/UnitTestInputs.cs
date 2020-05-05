@@ -94,7 +94,31 @@ namespace BitsAndBobs_Testing
     public class UnitTest8Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "name", "Admin", "1", "", "go back", "go back", "go back" };
+        String[] inputs = new string[] { "1", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 9: Successful Order Placement
+    public class UnitTest9Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 10: Inventory quantity verification
+    public class UnitTest10Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "check out", "" };
 
         public String GetInput()
         {
