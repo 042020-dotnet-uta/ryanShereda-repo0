@@ -106,7 +106,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest9Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "1", "check out", "" };
+        String[] inputs = new string[] { "1", "add item", "1", "4", "", "add item", "2", "6", "", "check out", "" };
 
         public String GetInput()
         {
@@ -118,7 +118,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest10Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "1", "check out", "" };
+        String[] inputs = new string[] { "1", "add item", "1", "70", "go back", "check out", "" };
 
         public String GetInput()
         {

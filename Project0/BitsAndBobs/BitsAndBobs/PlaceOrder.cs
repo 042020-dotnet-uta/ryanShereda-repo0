@@ -83,10 +83,14 @@ namespace BitsAndBobs
                             //Start Order Line Item loop
                             do
                             {
+                                //counter to hold item number
+                                int itemNumber = 1;
+
                                 Console.WriteLine("Current location inventory: ");
                                 foreach (var stock in inv)
                                 {
-                                    Console.WriteLine($"Item #{stock.InventoryID}: {stock.InventoryProduct.ProductName} -- Number available: {stock.QuantityAvailable}");
+                                    Console.WriteLine($"Item #{itemNumber}: {stock.InventoryProduct.ProductName} -- Number available: {stock.QuantityAvailable}");
+                                    itemNumber++;
                                 }
 
                                 Console.Write("Enter \"Add Item\" to add an item to your order, \"Remove Item\" to remove an item from your order, \"View Order\" to see your current order, or \"Check Out\" to submit your order: ");
@@ -117,9 +121,12 @@ namespace BitsAndBobs
                                                     }
                                                     else
                                                     {
+                                                        //counter for iterating through IQueryable and finding the correct item
+                                                        int prodCounter = 1;
+
                                                         foreach (var prod in inv)
                                                         {
-                                                            if (prod.InventoryID == userProductChoice)
+                                                            if (prodCounter == userProductChoice)
                                                             {
                                                                 Console.Write("Please enter the quantity you would like to add to your order: ");
                                                                 userInput = input.GetInput();
@@ -148,11 +155,16 @@ namespace BitsAndBobs
                                                                 catch (ArgumentOutOfRangeException)
                                                                 {
                                                                     Console.WriteLine("There is not sufficient inventory left to fill that order.");
+                                                                    break;
                                                                 }
                                                                 catch (Exception)
                                                                 {
                                                                     Console.WriteLine("Invalid selection. Please verify your input and try again.");
                                                                 }
+                                                            }
+                                                            else
+                                                            {
+                                                                prodCounter++;
                                                             }
                                                         }
                                                     }
@@ -244,10 +256,13 @@ namespace BitsAndBobs
                                         {
                                             currentOrder.OrderDate = DateTime.Now;
                                             db.Add(currentOrder);
+                                            db.SaveChanges();
+
                                             foreach (var line in orderLineItems)
                                             {
                                                 db.Add(line);
                                             }
+                                            db.SaveChanges();
 
                                             foreach (var stock in inv)
                                             {
