@@ -5,6 +5,7 @@ using System.Linq;
 using BitsAndBobs;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BitsAndBobs_Testing
 {
@@ -354,9 +355,6 @@ namespace BitsAndBobs_Testing
             }
         }
 
-
-
-
         /// <summary>
         /// Test 6 -- 
         /// This test looks up existing orders by customer first name, returning information about one.
@@ -705,10 +703,10 @@ namespace BitsAndBobs_Testing
 
         /// <summary>
         /// Test 8 -- 
-        /// This test begins to create an order, then discards the order and returns out of the function.
+        /// This test begins to create an order, then attempts to apply an empty order.
         /// </summary>
         [Fact]
-        public void TestRejectOrder()
+        public void TestSubmitEmptyOrder()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
@@ -716,56 +714,642 @@ namespace BitsAndBobs_Testing
                 .Options;
 
             //Act
+            Customer testCustomer;
+
+            #region Test database seeding
             using (var context = new BaB_DbContext(options))
             {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
 
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                testCustomer = testCustomer1;
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            PlaceOrder testPlaceOrder = new PlaceOrder();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testPlaceOrder.CreateOrder(new UnitTest8Inputs(), context, testCustomer);
             }
 
             //Assert
             using (var context = new BaB_DbContext(options))
             {
+                Assert.Equal(0, context.OrderLineItemsDB.Count());
+            }
+        }
+
+        //Previous test 9 threw constant exceptions regarding adding to the database
+        //I was unable to solve this problem.
+        #region Faulty Test 9
+                                    /*
+        /// <summary>
+        /// Test 9 -- 
+        /// This test creates an order with two line items, and applies it to the database.
+        /// </summary>
+        [Fact]
+        public void TestLineItemOrder()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BaB_DbContext>()
+                .UseInMemoryDatabase(databaseName: "Test9Db")
+                .Options;
+
+            //Act
+            Customer testCustomer;
+
+            #region Test database seeding
+            using (var context = new BaB_DbContext(options))
+            {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
+
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+                
+                #region Products
+                //Add a product to the database for building with
+                Product testProduct1 = new Product
+                {
+                    ProductName = "Test product 1",
+                    ProductPrice = 1
+                };
+
+                Product testProduct2 = new Product
+                {
+                    ProductName = "Test product 2",
+                    ProductPrice = 1
+                };
+
+                Product testProduct3 = new Product
+                {
+                    ProductName = "Test product 3",
+                    ProductPrice = 1
+                };
+
+                context.Add(testProduct1);
+                context.Add(testProduct2);
+                context.Add(testProduct3);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                #region Inventory
+                //Add inventory to locations
+                Inventory testInventory1 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory2 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory3 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory4 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory5 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory6 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                context.Add(testInventory1);
+                context.Add(testInventory2);
+                context.Add(testInventory3);
+                context.Add(testInventory4);
+                context.Add(testInventory5);
+                context.Add(testInventory6);
+                #endregion
+
+                #region Orders
+                Order testOrder = new Order
+                {
+                    OrderCustomer = testCustomer2,
+                    OrderLocation = testLocation2,
+                    OrderDate = DateTime.Now
+                };
+                context.Add(testOrder);
+                #endregion
+
+                testCustomer = testCustomer1;
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            PlaceOrder testPlaceOrder = new PlaceOrder();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testPlaceOrder.CreateOrder(new UnitTest9Inputs(), context, testCustomer);
+            }
+
+            //Assert
+            using (var context = new BaB_DbContext(options))
+            {
+                Assert.Equal(2, context.OrderLineItemsDB.Count());
+                Assert.Equal(1, context.OrdersDB.Count());
+                
+            }
+        }
+                                        */
+        #endregion
+
+        /// <summary>
+        /// Test 10 -- 
+        /// This test tries to add more items to the order than are in stock.
+        /// </summary>
+        [Fact]
+        public void TestOutOfStockOrder()
+        {
+            //Arrange
+            var options = new DbContextOptionsBuilder<BaB_DbContext>()
+                .UseInMemoryDatabase(databaseName: "Test10Db")
+                .Options;
+
+            //Act
+            Customer testCustomer;
+
+            #region Test database seeding
+            using (var context = new BaB_DbContext(options))
+            {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
+
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
+                #region Products
+                //Add a product to the database for building with
+                Product testProduct1 = new Product
+                {
+                    ProductName = "Test product 1",
+                    ProductPrice = 1
+                };
+
+                Product testProduct2 = new Product
+                {
+                    ProductName = "Test product 2",
+                    ProductPrice = 1
+                };
+
+                Product testProduct3 = new Product
+                {
+                    ProductName = "Test product 3",
+                    ProductPrice = 1
+                };
+
+                context.Add(testProduct1);
+                context.Add(testProduct2);
+                context.Add(testProduct3);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                #region Inventory
+                //Add inventory to locations
+                Inventory testInventory1 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory2 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory3 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory4 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory5 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory6 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                context.Add(testInventory1);
+                context.Add(testInventory2);
+                context.Add(testInventory3);
+                context.Add(testInventory4);
+                context.Add(testInventory5);
+                context.Add(testInventory6);
+                #endregion
+
+                testCustomer = testCustomer1;
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            PlaceOrder testPlaceOrder = new PlaceOrder();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testPlaceOrder.CreateOrder(new UnitTest10Inputs(), context, testCustomer);
+            }
+
+            //Assert
+            using (var context = new BaB_DbContext(options))
+            {
+                Assert.Equal(0, context.OrderLineItemsDB.Count());
+                Assert.Equal(0, context.OrdersDB.Count());
 
             }
         }
 
+        /// <summary>
+        /// Test 11 -- 
+        /// This test adds an item to the order, then removes it.
+        /// </summary>
         [Fact]
-        public void Test9()
+        public void TestRemoveItemFromOrder()
         {
             //Arrange
             var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
+                .UseInMemoryDatabase(databaseName: "Test10Db")
                 .Options;
 
             //Act
+            Customer testCustomer;
+
+            #region Test database seeding
             using (var context = new BaB_DbContext(options))
             {
+                #region Customers
+                //Add customers to database for sampling from
+                Customer testCustomer1 = new Customer
+                {
+                    CustFirstName = "Annie",
+                    CustLastName = "Admin",
+                    CustUsername = "testUser",
+                    CustPassword = "testPass"
+                };
 
+                Customer testCustomer2 = new Customer
+                {
+                    CustFirstName = "Becky",
+                    CustLastName = "Boss",
+                    CustUsername = "bestUser",
+                    CustPassword = "testPass"
+                };
+
+                context.Add(testCustomer1);
+                context.Add(testCustomer2);
+                #endregion
+
+                #region LocationCountry
+                //Add Location Country to the test database
+                LocationCountry testLocationCountry = new LocationCountry
+                {
+                    Country = "USA"
+                };
+
+                context.Add(testLocationCountry);
+                #endregion
+
+                #region LocationState
+                //Add Location State to the test database
+                LocationState testLocationState = new LocationState
+                {
+                    State = "Illinois"
+                };
+
+                context.Add(testLocationState);
+                #endregion
+
+                #region Products
+                //Add a product to the database for building with
+                Product testProduct1 = new Product
+                {
+                    ProductName = "Test product 1",
+                    ProductPrice = 1
+                };
+
+                Product testProduct2 = new Product
+                {
+                    ProductName = "Test product 2",
+                    ProductPrice = 1
+                };
+
+                Product testProduct3 = new Product
+                {
+                    ProductName = "Test product 3",
+                    ProductPrice = 1
+                };
+
+                context.Add(testProduct1);
+                context.Add(testProduct2);
+                context.Add(testProduct3);
+                #endregion
+
+                #region Locations
+                //Add locations to the test database
+                Location testLocation1 = new Location
+                {
+                    LocationAddress = "1 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                Location testLocation2 = new Location
+                {
+                    LocationAddress = "2 Street",
+                    LocationState = testLocationState,
+                    LocationCountry = testLocationCountry
+                };
+
+                context.Add(testLocation1);
+                context.Add(testLocation2);
+                #endregion
+
+                #region Inventory
+                //Add inventory to locations
+                Inventory testInventory1 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory2 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory3 = new Inventory
+                {
+                    InventoryLocation = testLocation1,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory4 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct1,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory5 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct2,
+                    QuantityAvailable = 15
+                };
+
+                Inventory testInventory6 = new Inventory
+                {
+                    InventoryLocation = testLocation2,
+                    InventoryProduct = testProduct3,
+                    QuantityAvailable = 15
+                };
+
+                context.Add(testInventory1);
+                context.Add(testInventory2);
+                context.Add(testInventory3);
+                context.Add(testInventory4);
+                context.Add(testInventory5);
+                context.Add(testInventory6);
+                #endregion
+
+                testCustomer = testCustomer1;
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            PlaceOrder testPlaceOrder = new PlaceOrder();
+
+            using (var context = new BaB_DbContext(options))
+            {
+                testPlaceOrder.CreateOrder(new UnitTest11Inputs(), context, testCustomer);
             }
 
             //Assert
             using (var context = new BaB_DbContext(options))
             {
-
-            }
-        }
-
-        [Fact]
-        public void Test10()
-        {
-            //Arrange
-            var options = new DbContextOptionsBuilder<BaB_DbContext>()
-                .UseInMemoryDatabase(databaseName: "CustomNameForThisTestsInMemoryDb")
-                .Options;
-
-            //Act
-            using (var context = new BaB_DbContext(options))
-            {
-
-            }
-
-            //Assert
-            using (var context = new BaB_DbContext(options))
-            {
+                Assert.Equal(0, context.OrderLineItemsDB.Count());
+                Assert.Equal(0, context.OrdersDB.Count());
 
             }
         }

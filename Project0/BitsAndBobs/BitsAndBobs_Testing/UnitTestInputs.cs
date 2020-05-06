@@ -10,7 +10,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest1Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] {"log in", "testUser", "testPass"};
+        String[] inputs = new string[] {"log in", "testUser", "testPass", ""};
 
         public String GetInput()
         {
@@ -22,7 +22,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest2Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "testUserWrong", "testPassWrong", "testUser", "testPass" };
+        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "testUserWrong", "testPassWrong", "testUser", "testPass", "" };
 
         public String GetInput()
         {
@@ -34,7 +34,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest3Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "go back", "log in", "testUser", "testPass" };
+        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "go back", "log in", "testUser", "testPass", "" };
 
         public String GetInput()
         {
@@ -83,6 +83,54 @@ namespace BitsAndBobs_Testing
     {
         int index = 0;
         String[] inputs = new string[] { "name", "Admin", "1", "", "go back", "go back", "go back" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 8: Empty Order Placement
+    public class UnitTest8Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 9: Successful Order Placement
+    public class UnitTest9Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "add item", "1", "4", "", "add item", "2", "6", "", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 10: Inventory quantity verification
+    public class UnitTest10Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "add item", "1", "70", "go back", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
+
+    //Pre-generated inputs for Unit Test 11: Remove Item from Order
+    public class UnitTest11Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "add item", "1", "2", "", "remove item", "1", "", "check out", "" };
 
         public String GetInput()
         {

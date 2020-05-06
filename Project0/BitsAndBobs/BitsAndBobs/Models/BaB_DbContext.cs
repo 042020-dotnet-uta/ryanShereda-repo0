@@ -33,7 +33,7 @@ namespace BitsAndBobs.Models
         {
             if (!options.IsConfigured)
             {
-                options.UseSqlite("Data Source=BitsAndBobs.db");
+                options.UseSqlite("Data Source=BitsAndBobs.db"); //Set database file
             }
         }
     }
