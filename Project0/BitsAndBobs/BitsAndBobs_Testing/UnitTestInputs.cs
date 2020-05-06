@@ -125,4 +125,16 @@ namespace BitsAndBobs_Testing
             return inputs[index++];
         }
     }
+
+    //Pre-generated inputs for Unit Test 11: Remove Item from Order
+    public class UnitTest11Inputs : IUserInput
+    {
+        int index = 0;
+        String[] inputs = new string[] { "1", "add item", "1", "2", "", "remove item", "1", "", "check out", "" };
+
+        public String GetInput()
+        {
+            return inputs[index++];
+        }
+    }
 }
