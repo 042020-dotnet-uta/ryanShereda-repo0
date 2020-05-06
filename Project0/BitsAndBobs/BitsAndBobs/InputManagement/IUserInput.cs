@@ -6,6 +6,9 @@ using System.Text;
 //https://stackoverflow.com/questions/10181421/how-do-i-apply-unit-testing-to-c-sharp-function-which-requires-user-input-dynami
 namespace BitsAndBobs
 {
+    /// <summary>
+    /// Interface for getting external input.
+    /// </summary>
     public interface IUserInput
     {
         public String GetInput();

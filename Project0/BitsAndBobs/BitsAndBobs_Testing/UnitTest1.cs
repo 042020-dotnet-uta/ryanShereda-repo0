@@ -801,7 +801,7 @@ namespace BitsAndBobs_Testing
             }
         }
 
-        //Previous test 9 threw constant exceptions regarding adding to the database, and
+        //Previous test 9 threw constant exceptions regarding adding to the database
         //I was unable to solve this problem.
         #region Faulty Test 9
                                     /*

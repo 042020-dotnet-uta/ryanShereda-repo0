@@ -39,27 +39,30 @@ namespace BitsAndBobs
                 Console.WriteLine("Please enter \"Log in\" to log in to an existing account, \"Sign up\" to create a new account, or \"Exit\" to exit the application.");
                 //temporary variable to hold the user input
                 userInput = input.GetInput();
-                if ((userInput.ToLower() == "log in") || (userInput.ToLower() == "login"))
+                if ((userInput.ToLower() == "log in") || (userInput.ToLower() == "login")) //Log in existing user
                 {
                     LogInExistingUser(input, db);
-                    
                 }
-                else if (userInput.ToLower() == "sign up" || (userInput.ToLower() == "signup"))
+                else if (userInput.ToLower() == "sign up" || (userInput.ToLower() == "signup")) //Create new customer
                 {
                     CreateNewCustomer(input, db);
-                    
                 }
-                else if (userInput.ToLower() == "exit")
+                else if (userInput.ToLower() == "exit") //Close out of application
                 {
                     Environment.Exit(0);
                 }
-                else
+                else //invalid input
                 {
                     Console.WriteLine("Invalid command; Please verify your input, and try again.");
                 }
-            } while (LoggedInCustomer == null) ;
+            } while (LoggedInCustomer == null); //Loop while there is no logged in customer
         }
 
+        /// <summary>
+        /// Log in method for existing users.
+        /// </summary>
+        /// <param name="input">User input.</param>
+        /// <param name="db">Database reference.</param>
         void LogInExistingUser(IUserInput input, BaB_DbContext db)
         {
             bool retryLogIn = true;
@@ -80,24 +83,28 @@ namespace BitsAndBobs
                 //try/catch block, to test user input
                 try
                 {
+                    //Query database for valid username/password combos
                     var logInAttempt =
                         (from attempt in db.CustomersDB
                         where ((attempt.CustUsername == inputUsername) && (attempt.CustPassword == inputPassword))
                         select attempt).First();
-                    Console.WriteLine("Login success! Please wait...");
-
+                    //If combo is valid, set user and return out of method
+                    Console.WriteLine("Login success! Please press enter to continue...");
                     loggedInCustomer = logInAttempt;
+
+                    //wait for user input to return
+                    input.GetInput();
                     return;
                 }
-                catch (Exception)
+                catch (Exception) //No combination found in database
                 {
                     Console.WriteLine("Invalid username or password. Please re-enter your username, or type \"Go Back\" to return to previous options.");
                     userInput = input.GetInput();
-                    if (userInput.ToLower() == "go back" || (userInput.ToLower() == "goback"))
+                    if (userInput.ToLower() == "go back" || (userInput.ToLower() == "goback")) //go back out of logging in
                     {
                         retryLogIn = false;
                     }
-                    else
+                    else //Enter new username
                     {
                         inputUsername = userInput;
                     }
@@ -105,6 +112,11 @@ namespace BitsAndBobs
             }
         }
 
+        /// <summary>
+        /// Creates a new customer and adds them to the database.
+        /// </summary>
+        /// <param name="input">User input.</param>
+        /// <param name="db">Database reference.</param>
         void CreateNewCustomer(IUserInput input, BaB_DbContext db)
         {
             //create variables to hold user input during creation
@@ -122,30 +134,33 @@ namespace BitsAndBobs
             Console.Write("Please enter your last name: ");
             newLastName = input.GetInput();
 
-            do
+            do //Username loop -- repeat until available name
             {
                 Console.Write("Please enter your desired username: ");
                 newUsername = input.GetInput();
 
-                if ((newUsername.ToLower() == "go back") || (newUsername.ToLower() == "goback") || String.IsNullOrWhiteSpace(newUsername))
+                if ((newUsername.ToLower() == "go back") || (newUsername.ToLower() == "goback") || String.IsNullOrWhiteSpace(newUsername)) //Username cannot be "Go back" or empty
                 {
                     Console.WriteLine("We're sorry, that cannot be used for your username. Please try a different username. ");
                 }
-                else
+                else //valid username input
                 {
+                    //query database for matching usernames
                     var usernameAvailabilityCheck =
                         (from check in db.CustomersDB
                          where (check.CustUsername == newUsername)
                          select check);
-                    if (usernameAvailabilityCheck.Count() == 0)
+                    if (usernameAvailabilityCheck.Count() == 0) //if the username does not exist yet
                     {
-
+                        //inform user name is available
                         Console.Write("Username available! ");
+
+                        //request desired password
                         Console.Write("Please enter your desired password: ");
                         newPassword = input.GetInput();
-                        break;
+                        break; //break out of username check loop
                     }
-                    else
+                    else //username already exists in database
                     {
                         Console.WriteLine("We're sorry, that username is unavailable. Please select a different name.");
                     }

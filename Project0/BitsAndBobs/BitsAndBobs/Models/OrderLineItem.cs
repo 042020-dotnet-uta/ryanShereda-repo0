@@ -52,6 +52,7 @@ namespace BitsAndBobs.Models
 
 		//Structure adapted from Microsoft Docs
 		//https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-implement-a-lightweight-class-with-auto-implemented-properties
+		//Create an unnamed OrderLineItem object, for immediately storing into a list or array
 		public static OrderLineItem CreateLineItem(Order order, Product product, int lineQuantity)
 		{
 			return new OrderLineItem(order, product, lineQuantity);
