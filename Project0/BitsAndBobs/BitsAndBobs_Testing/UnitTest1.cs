@@ -958,6 +958,16 @@ namespace BitsAndBobs_Testing
                 context.Add(testInventory6);
                 #endregion
 
+                #region Orders
+                Order testOrder = new Order
+                {
+                    OrderCustomer = testCustomer2,
+                    OrderLocation = testLocation2,
+                    OrderDate = DateTime.Now
+                };
+                context.Add(testOrder);
+                #endregion
+
                 testCustomer = testCustomer1;
 
                 context.SaveChanges();
