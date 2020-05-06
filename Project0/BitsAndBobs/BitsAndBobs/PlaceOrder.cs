@@ -15,6 +15,13 @@ namespace BitsAndBobs
     {
         //Initialize variable to hold user input in this class
         String userInput = "";
+
+        /// <summary>
+        /// This method creates, fills out, and submits orders according to user input.
+        /// </summary>
+        /// <param name="input">User input.</param>
+        /// <param name="db">Database reference.</param>
+        /// <param name="customer">The currently logged in customer</param>
         public void CreateOrder(IUserInput input, BaB_DbContext db, Customer customer)
         {
             //Order to store the location and customer info
