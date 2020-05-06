@@ -148,7 +148,7 @@ namespace BitsAndBobs
                                                                     {
                                                                         //create line item with information provided (order, product, quantity, line price
                                                                         //Source: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-implement-a-lightweight-class-with-auto-implemented-properties
-                                                                        orderLineItems.Add(OrderLineItem.CreateLineItem(currentOrder, prod.InventoryProduct, userQuantityChoice));
+                                                                        orderLineItems.Add(OrderLineItem.CreateLineItem(currentOrder, prod.InventoryProduct, userQuantityChoice, (prod.InventoryProduct.ProductPrice * userQuantityChoice)));
 
                                                                         //decrease inventory counts by same amount
                                                                         prod.QuantityAvailable -= userQuantityChoice;

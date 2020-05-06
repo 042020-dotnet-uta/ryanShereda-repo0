@@ -10,7 +10,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest1Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] {"log in", "testUser", "testPass"};
+        String[] inputs = new string[] {"log in", "testUser", "testPass", ""};
 
         public String GetInput()
         {
@@ -22,7 +22,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest2Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "testUserWrong", "testPassWrong", "testUser", "testPass" };
+        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "testUserWrong", "testPassWrong", "testUser", "testPass", "" };
 
         public String GetInput()
         {
@@ -34,7 +34,7 @@ namespace BitsAndBobs_Testing
     public class UnitTest3Inputs : IUserInput
     {
         int index = 0;
-        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "go back", "log in", "testUser", "testPass" };
+        String[] inputs = new string[] { "log in", "testUserWrong", "testPassWrong", "go back", "log in", "testUser", "testPass", "" };
 
         public String GetInput()
         {
