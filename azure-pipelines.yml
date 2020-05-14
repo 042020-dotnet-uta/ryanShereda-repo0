@@ -21,7 +21,6 @@ stages: #stages run in sequence
       - job: 'build'
         steps:
           - script: 'dotnet build Project0/BitsAndBobs' #run 'dotnet build' in the VM console
-#          - script: 'dotnet build Project0/BitsAndBobs'
       - job: 'test'
         dependsOn: 'build' #if 'build' fails, this job will not run
         steps:
