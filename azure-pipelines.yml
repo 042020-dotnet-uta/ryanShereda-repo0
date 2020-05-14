@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#what branch are we watching
+trigger:
+- 'master'
+
+#type of VM to be created
+pool:
+  vmImage: 'ubuntu-latest'
+
+#watch for pull requests
+pr: 'none'
+
+#groups sequential actions
+stages: #stages run in sequence
+  - stage:
+    jobs:
+      - job: 'build'
+        steps:
+          - script: 'dotnet build Project0/BitsAndBobs/BitsAndBobs/BitsAndBobs.csproj' #run 'dotnet build' in the VM console
+          - script: echo Hey there 
+#  - stage: 
+#    jobs:
+      - job: 'test'
+        dependsOn: 'build' #if 'build' fails, this job will not run
+        steps:
+          - script: 'dotnet test Project0/BitsAndBobs/BitsAndBobsTesting/BitsAndBobs_Testing.csproj' #run 'dotnet test' in the VM console
+#  - stage: 
+#    jobs: 
+      - job: 'publish'
+        dependsOn: 'test' #if 'test' fails, this job will not run
+        steps: 
+          - script: 'dotnet publish Project0/BitsAndBobs/BitsAndBobs/BitsAndBobs.csproj' #run 'dotnet publish' in the VM console
