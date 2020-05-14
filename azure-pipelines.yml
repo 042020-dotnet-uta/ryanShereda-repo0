@@ -25,8 +25,8 @@ stages: #stages run in sequence
       - job: 'test'
         dependsOn: 'build' #if 'build' fails, this job will not run
         steps:
-          - script: 'dotnet test Project0/BitsAndBobs/BitsAndBobsTesting/BitsAndBobs_Testing.csproj' #run 'dotnet test' in the VM console
+          - script: 'dotnet test Project0/BitsAndBobs' #run 'dotnet test' in the VM console
       - job: 'publish'
         dependsOn: 'test' #if 'test' fails, this job will not run
         steps: 
-          - script: 'dotnet publish Project0/BitsAndBobs/BitsAndBobs/BitsAndBobs.csproj' #run 'dotnet publish' in the VM console
+          - script: 'dotnet publish Project0/BitsAndBobs' #run 'dotnet publish' in the VM console
