@@ -21,7 +21,7 @@ stages: #stages run in sequence
       - job: 'build'
         steps:
           - script: 'dotnet build Project0/BitsAndBobs/BitsAndBobs/BitsAndBobs.csproj' #run 'dotnet build' in the VM console
-          - script: echo Hey there 
+          - script: 'dotnet build Project0/BitsAndBobs/BitsAndBobsTesting/BitsAndBobs_Testing.csproj'
 #  - stage: 
 #    jobs:
       - job: 'test'
